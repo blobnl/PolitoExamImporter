@@ -1,0 +1,70 @@
+ESSAY
+Trasformazione basi
+TEXT
+Dato il numero 21 in base 10 riportarne la sua codifica in binario, ottale ed esadecimale
+ANSWER
+Risposte:
+
+- base 2)
+
+- base 8)
+
+- base 16)
+
+
+ESSAY
+Memorie volatili e non
+TEXT
+Illustrare la differenza tra una *memoria volatile* e una *non volatile* e classificare secondo questa caratteristica le principali memorie di un elaboratore.
+
+ESSAY
+Argomenti funzione
+TEXT
+In una funzione Python, qual'è la differenza tra *argomenti* e *valori restituiti*? Quanti argomenti può avere una invocazione di funzione? E quanti valori restituiti?
+
+
+
+
+QUESTION
+Incroci
+TEXT
+# Incroci
+Si scriva un programma per la gestione delle precedenze ad un incrocio di tre strade denominate N, S, E.  Si scriva un programma per la gestione delle precedenze ad un incrocio di tre strade.  Il programma deve leggere gli arrivi sulle varie file tramite un file che si chiama “arrivi.txt”. Ogni riga di tale file rappresenta un certo istante di tempo in questo modo:
+
+	TARGA_N TARGA_S TARGA_E 
+
+Dove `TARGA` è una stringa di 7 caratteri, `TARGA_N` indica un arrivo dalla strada N, `TARGA_S` indica un arrivo dalla strada S, `TARGA_E` indica arrivo dalla strada E. Nel caso in cui non ci sia una macchina proveniente da una determinata strada `TARGA` sarà rappresentata dalla stringa **XXXXXX**.
+
+Per ogni istante di tempo considerato (ovvero per ogni riga del file in ingresso) il programma deve scrivere su schermo la macchina che può attraversare l’incrocio secondo la seguente regola: ha precedenza la macchina della fila più lunga. Nel caso di file di ugual lunghezza si scelga la prima esaminata (quindi, l’ordine di precedenza è `N->S->E`). Terminata la lettura del file in input continuare il programma deve continuare a scrivere in ordine le targhe delle macchine che attraversano l’incrocio fino all’esaurimento delle stesse.
+
+Una macchina che non passa ad un certo istante di tempo all’incrocio rimane in fila. I nuovi arrivi di macchine ad ogni istante di tempo si accodano alle rispettive file.
+
+# Esempio file arrivi.txt (in input)
+
+	AA100BB CC200FF GG300HH  
+	CC100ZZ YY200PP VV500KK   
+	NN200KK XXXXXXX HH200DD   
+	XXXXXXX FF600PP XXXXXXX  
+
+
+# Esempio esecuzione:
+
+	c:> python incrocio.py
+
+Output (creato dal programma)
+
+	AA100BB  
+	CC200FF  
+	GG300HH  
+	CC100ZZ   
+	YY200PP  
+	VV500KK  
+	NN200KK  
+	FF600PP  
+	HH200DD  
+
+
+ANSWER
+# i file specificati NON sono visibili direttamente, ma esistono e si possono aprire
+FILES
+arrivi.txt

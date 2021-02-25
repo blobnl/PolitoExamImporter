@@ -1,0 +1,11 @@
+**NOTA**:
+premete il pulsante "verifica risposta" per eseguire il codice 
+(ricordatevi che non è necessario per l'esame che il codice sia 
+compilabile ed eseguibile correttamente; la possibilità di eseguirlo vi 
+permette di controllare se quello che avete scritto funziona. Verrà 
+comunque corretta la logica del programma e l'approccio alla sua 
+soluzione)
+
+**DOCUMENTAZIONE**: [Documentazione online di Python](https://docs.python.org/3/ "Doc. python"){: target="_blank" }.
+
+
