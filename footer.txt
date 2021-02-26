@@ -7,5 +7,6 @@ comunque corretta la logica del programma e l'approccio alla sua
 soluzione)
 
 **DOCUMENTAZIONE**: [Documentazione online di Python](https://docs.python.org/3/ "Doc. python"){: target="_blank" }.
+<ul><li><a href="https://exam.polito.it/draftfile.php/384524/user/draft/438247523/14bhd_cheat_sheet_1.1.pdf" target="_blank">File PDF con le funzioni di Python</a></li><li><a href="https://exam.polito.it/draftfile.php/384524/user/draft/438247523/accessible%2014bhd_cheat_sheet.pdf" target="_blank">File PDF con le funzioni di Python (versione accessibile)</a><br></li></ul>
 
 
