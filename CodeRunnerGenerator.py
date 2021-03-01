@@ -263,7 +263,10 @@ def main():
             args.category = mainCategory + '/' + category
             print('processing',subDir, 'category', category)
             questionList = readQuestions(args)
-            categories.append(CategoryInfo(subDir, category))
+            if args.canRedoQuiz:
+                categories.append(CategoryInfo(subDir, readOnlyDescription = True))
+            else:
+                categories.append(CategoryInfo(subDir))
             questions.append((args.category,questionList))
             #processDir(args)
 

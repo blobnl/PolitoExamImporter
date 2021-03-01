@@ -13,7 +13,7 @@
     <RootNamespace>CodeRunnerGenerator</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>--workDir "D:\Dropbox (Politecnico di Torino Staff)\Informatica\WInterSession-II Compiti pubblicabili su Exercise" --xml informatica.xml --questionFile domande.txt --category "AppelloII-2021" --createMBZ True --enableACE True --canRedoQuiz False --processSubDirs True --merge False --createUniqueImport True</CommandLineArguments>
+    <CommandLineArguments>--workDir "D:\Dropbox (Politecnico di Torino Staff)\Informatica\WInterSession-II Compiti pubblicabili su Exercise" --xml informatica.xml --questionFile domande.txt --category "AppelloII-2021" --createMBZ True --enableACE True --canRedoQuiz True --processSubDirs True --merge False --createUniqueImport True</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

@@ -30,11 +30,11 @@ class CategoryInfo(object):
     INFO_FILE = 'info.quiz'
     CanReDo = False
 
-    def __init__(self, categoryDir, category = ''):
+    def __init__(self, categoryDir = '', readOnlyDescription = False):
         super(CategoryInfo, self).__init__()
 
         self.categoryDir = categoryDir
-        self.category = category
+        self.readOnlyDescription = readOnlyDescription
 
         self.open = None
         self.close = None
@@ -42,10 +42,25 @@ class CategoryInfo(object):
         self.closeafter = None
         self.delay = 0
         self.canredo = CategoryInfo.CanReDo
+        self.intro = ''
         
         self.parseInfo()
+        self.setValues()
 
     def parseInfo(self):
+
+        html_escape_table = {
+            #"&": "&amp;",
+            #'"': "&quot;",
+            #"'": "&apos;",
+            ">": "&gt;",
+            "<": "&lt;",
+            'è': '&egrave;',
+            'à': '&agrave;',
+            'ì': '&igrave;',
+            'ù': '&ugrave;',
+            'ò': '&ograve;'
+        }
 
         try:
             file = open(os.path.join(self.categoryDir, CategoryInfo.INFO_FILE), 'r', encoding='utf-8')
@@ -63,53 +78,68 @@ class CategoryInfo(object):
                 code = parts[0].lower()
 
                 
-                if code == 'open':
-                    self.open = datetime.datetime.strptime(parts[1] + ' ' + parts[2], '%d/%m/%Y %H:%M')
-                elif code == 'close':
-                    self.close = datetime.datetime.strptime(parts[1] + ' ' + parts[2], '%d/%m/%Y %H:%M')
-                elif code == 'duration':
-                    # duration in minutes
-                    self.duration = int(parts[1]) * 60
-                elif code == 'closeafter':
-                    self.closeafter = str(int(parts[1]))
-                elif code == 'canredo':
-                    self.canredo = str2bool(parts[1])        
-                elif code == 'delay':
-                    self.delay = str(int(parts[1]))      
+                if code == 'intro':
+                    print('intro')
+                    for partId in range(1,len(parts)):
+                        self.intro += parts[partId].replace('<', '&lt;').replace('>','&gt;')
+                        #self.intro += "".join(html_escape_table.get(c,c) for c in parts[partId])
+                        if partId < len(parts) - 1:
+                            self.intro += ' '
+                    
+                        #self.intro += parts[idx] + ' '
+                    #escaped = "".join(html_escape_table.get(c,c) for c in self.intro)
+                    #self.intro = escaped
+                    #self.intro = self.intro.replace('<', '&lt;').replace('>','&gt;')
+                    
+
+                if not self.readOnlyDescription:
+                    if code == 'open':
+                        self.open = datetime.datetime.strptime(parts[1] + ' ' + parts[2], '%d/%m/%Y %H:%M')
+                    elif code == 'close':
+                        self.close = datetime.datetime.strptime(parts[1] + ' ' + parts[2], '%d/%m/%Y %H:%M')
+                    elif code == 'duration':
+                        # duration in minutes
+                        self.duration = int(parts[1]) * 60
+                    elif code == 'closeafter':
+                        self.closeafter = str(int(parts[1]))
+                    elif code == 'canredo':
+                        self.canredo = str2bool(parts[1])        
+                    elif code == 'delay':
+                        self.delay = str(int(parts[1]))          
 
 
         except Exception as e:
             print('Error in parsing quiz info for', self.categoryDir,e)
             return
 
-        finally:    
-                if self.open is None:
-                    self.open = '0'
+    def setValues(self):  
+        if self.open is None:
+            self.open = '0'
 
-                if self.close is None:
-                    self.close = '0'
+        if self.close is None:
+            self.close = '0'
 
-                if self.duration is not None and self.open != '0':
-                    quizEnd = self.open + datetime.timedelta(seconds = self.duration + int(self.delay) * 60)
+        if self.duration is not None and self.open != '0':
+            quizEnd = self.open + datetime.timedelta(seconds = self.duration + int(self.delay) * 60)
 
-                    if self.close is not None:
-                        self.close = max(quizEnd, self.close)
-                    else:
-                        self.close = quizEnd
+            if self.close is not None:
+                self.close = max(quizEnd, self.close)
+            else:
+                self.close = quizEnd
                         
-                    seconds = int((self.open - datetime.datetime.utcfromtimestamp(0)).total_seconds())
-                    self.open = str(seconds)
-                    seconds = int((self.close - datetime.datetime.utcfromtimestamp(0)).total_seconds())
-                    self.close = str(seconds)
+            seconds = int((self.open - datetime.datetime.utcfromtimestamp(0)).total_seconds())
+            self.open = str(seconds)
+            seconds = int((self.close - datetime.datetime.utcfromtimestamp(0)).total_seconds())
+            self.close = str(seconds)
 
 
-                if self.duration is None:
-                    self.duration = '0'
-                else:
-                    self.duration = str(self.duration)
+        if self.duration is None:
+            self.duration = '0'
+        else:
+            self.duration = str(self.duration)
 
-                if self.closeafter is None:
-                    self.closeafter = '0'
+        if self.closeafter is None:
+            self.closeafter = '0'
 
 
 
@@ -249,11 +279,13 @@ class Category(object):
         indent.inc()
         indent.write(file, '<name>' + self.name + '</name>')
 
-        intro = '&lt;p&gt;&lt;b&gt;&lt;i&gt;Esame di Informatica&amp;nbsp; (Python)&lt;/i&gt;&lt;/b&gt;&amp;nbsp;&lt;/p&gt;'
-        intro += '&lt;p&gt;Potete rispondere alle domande in un ordine qualsiasi (e tornare indietro e modificare le risposte). '
-        intro += "Ricordo che se anche ci fossero problemi con il server che gestisce la compilazione python, il codice scritto nella casella di testo viene salvato correttamente all'interno della risposta. "
-        intro += "In caso di problemi, potete quindi continuare a scrivere il codice (e provare a ricompilare in un momento successivo). "
-        intro += "Ricordo che il funzionamento corretto del compito NON è un requisito essenziale per la valutazione dello stesso&lt;/p&gt;"
+        intro = self.info.intro
+        if intro == '':
+            intro = '&lt;p&gt;&lt;b&gt;&lt;i&gt;Esame di Informatica&amp;nbsp; (Python)&lt;/i&gt;&lt;/b&gt;&amp;nbsp;&lt;/p&gt;'
+            intro += '&lt;p&gt;Potete rispondere alle domande in un ordine qualsiasi (e tornare indietro e modificare le risposte). '
+            intro += "Ricordo che se anche ci fossero problemi con il server che gestisce la compilazione python, il codice scritto nella casella di testo viene salvato correttamente all'interno della risposta. "
+            intro += "In caso di problemi, potete quindi continuare a scrivere il codice (e provare a ricompilare in un momento successivo). "
+            intro += "Ricordo che il funzionamento corretto del compito NON è un requisito essenziale per la valutazione dello stesso&lt;/p&gt;"
 
         indent.write(file, '<intro>' + intro + '</intro>')
         indent.write(file, '<introformat>1</introformat>')
