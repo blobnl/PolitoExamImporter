@@ -1,6 +1,19 @@
 from Indent import Indent
 import os
+import datetime
+import time
 from QuestionTypes import getTimeStamp, getVersionNumber
+
+
+def str2bool(v):
+    if isinstance(v, bool):
+       return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
 
 class QuestionCategories(object):
     """description of class"""
@@ -10,6 +23,95 @@ class QuestionCategories(object):
 
     def add(self, category):
         self.categories.append(category)
+
+
+class CategoryInfo(object):
+
+    INFO_FILE = 'info.quiz'
+    CanReDo = False
+
+    def __init__(self, categoryDir, category = ''):
+        super(CategoryInfo, self).__init__()
+
+        self.categoryDir = categoryDir
+        self.category = category
+
+        self.open = None
+        self.close = None
+        self.duration = None
+        self.closeafter = None
+        self.delay = 0
+        self.canredo = CategoryInfo.CanReDo
+        
+        self.parseInfo()
+
+    def parseInfo(self):
+
+        try:
+            file = open(os.path.join(self.categoryDir, CategoryInfo.INFO_FILE), 'r', encoding='utf-8')
+            lines = file.readlines()
+            idx = 0
+
+            while idx < len(lines):
+                line = lines[idx].strip()
+                idx += 1
+
+                if line == '' or line[0] == '#':
+                    continue
+
+                parts = line.split()
+                code = parts[0].lower()
+
+                
+                if code == 'open':
+                    self.open = datetime.datetime.strptime(parts[1] + ' ' + parts[2], '%d/%m/%Y %H:%M')
+                elif code == 'close':
+                    self.close = datetime.datetime.strptime(parts[1] + ' ' + parts[2], '%d/%m/%Y %H:%M')
+                elif code == 'duration':
+                    # duration in minutes
+                    self.duration = int(parts[1]) * 60
+                elif code == 'closeafter':
+                    self.closeafter = str(int(parts[1]))
+                elif code == 'canredo':
+                    self.canredo = str2bool(parts[1])        
+                elif code == 'delay':
+                    self.delay = str(int(parts[1]))      
+
+
+        except Exception as e:
+            print('Error in parsing quiz info for', self.categoryDir,e)
+            return
+
+        finally:    
+                if self.open is None:
+                    self.open = '0'
+
+                if self.close is None:
+                    self.close = '0'
+
+                if self.duration is not None and self.open != '0':
+                    quizEnd = self.open + datetime.timedelta(seconds = self.duration + int(self.delay) * 60)
+
+                    if self.close is not None:
+                        self.close = max(quizEnd, self.close)
+                    else:
+                        self.close = quizEnd
+                        
+                    seconds = int((self.open - datetime.datetime.utcfromtimestamp(0)).total_seconds())
+                    self.open = str(seconds)
+                    seconds = int((self.close - datetime.datetime.utcfromtimestamp(0)).total_seconds())
+                    self.close = str(seconds)
+
+
+                if self.duration is None:
+                    self.duration = '0'
+                else:
+                    self.duration = str(self.duration)
+
+                if self.closeafter is None:
+                    self.closeafter = '0'
+
+
 
 
 class Category(object):
@@ -70,6 +172,7 @@ class Category(object):
         self.parent = 0
         self.info = ""
         self.isQuiz = False
+        self.info = None
 
         self.questions = []
 
@@ -154,14 +257,19 @@ class Category(object):
 
         indent.write(file, '<intro>' + intro + '</intro>')
         indent.write(file, '<introformat>1</introformat>')
-        indent.write(file, '<timeopen>' + getTimeStamp() + '</timeopen>')
-        indent.write(file, '<timeclose>' + getTimeStamp() + '</timeclose>')
-        indent.write(file, '<timelimit>5400</timelimit>')
+        indent.write(file, '<timeopen>' + str(self.info.open) + '</timeopen>')
+        indent.write(file, '<timeclose>' + str(self.info.close) + '</timeclose>')
+        indent.write(file, '<timelimit>' + str(self.info.duration) + '</timelimit>')
         indent.write(file, '<overduehandling>autosubmit</overduehandling>')
         indent.write(file, '<graceperiod>0</graceperiod>')
         indent.write(file, '<preferredbehaviour>interactive</preferredbehaviour>')
         indent.write(file, '<canredoquestions>0</canredoquestions>')
-        indent.write(file, '<attempts_number>1</attempts_number>')
+
+        attempts = 1
+        if self.info.canredo:
+            attempts = 0
+
+        indent.write(file, '<attempts_number>' + str(attempts) + '</attempts_number>')
         indent.write(file, '<attemptonlast>0</attemptonlast>')
         indent.write(file, '<grademethod>1</grademethod>')
         indent.write(file, '<decimalpoints>2</decimalpoints>')
@@ -182,15 +290,15 @@ class Category(object):
         indent.write(file, '<timemodified>' + getTimeStamp() + '</timemodified>')
         indent.write(file, '<password></password>')
         indent.write(file, '<subnet></subnet>')
-        indent.write(file, '<browsersecurity>lockdownbrowser</browsersecurity>')
-        indent.write(file, '<delay1>0</delay1>')
-        indent.write(file, '<delay2>0</delay2>')
+        indent.write(file, '<browsersecurity>-</browsersecurity>')
+        indent.write(file, '<delay1>' + str(self.info.delay) + '</delay1>')
+        indent.write(file, '<delay2>1</delay2>')
         indent.write(file, '<showuserpicture>0</showuserpicture>')
         indent.write(file, '<showblocks>0</showblocks>')
         indent.write(file, '<completionattemptsexhausted>0</completionattemptsexhausted>')
         indent.write(file, '<completionpass>0</completionpass>')
         indent.write(file, '<pagination>0</pagination>')
-        indent.write(file, '<closeafter>30</closeafter>')
+        indent.write(file, '<closeafter>' + str(self.info.closeafter) + '</closeafter>')
         indent.write(file, '<autoreport>0</autoreport>')
         indent.write(file, '<watermark>0</watermark>')
     

@@ -184,7 +184,7 @@ class MoodleImport(object):
         return self.quizId - 1
 
 
-    def addQuiz(self, category, questionList):
+    def addQuiz(self, category, questionList, categoryInfo = None):
         
         print('Adding category', category)
         parts = category.strip().split('/')
@@ -193,6 +193,7 @@ class MoodleImport(object):
             self.addCategory(category)
 
         newCategory = self.categories[parts[-1]]
+        newCategory.info = categoryInfo
         newCategory.addQuestions(questionList)
 
         # if it has a parent, get its id

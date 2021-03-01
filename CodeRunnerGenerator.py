@@ -7,21 +7,12 @@ import glob
 
 from Indent import Indent
 from QuestionTypes import Essay, CodeRunner, CheatSheet, MultiChoice
+from QuestionCategories import CategoryInfo,str2bool
 from MoodleImporterGenerator import MoodleImport
 
 
 
 EXTENSION_LIST = ['markdown.extensions.tables', 'markdown.extensions.fenced_code', 'markdown.extensions.attr_list']
-
-def str2bool(v):
-    if isinstance(v, bool):
-       return v
-    if v.lower() in ('yes', 'true', 't', 'y', '1'):
-        return True
-    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
-        return False
-    else:
-        raise argparse.ArgumentTypeError('Boolean value expected.')
 
 
 
@@ -144,6 +135,7 @@ def parseArguments():
     parser.add_argument('--processSubDirs', type=str2bool, default=False, help='Processing each subdir (default is False)')
     parser.add_argument('--merge', type=str2bool, default=False, help='Merging all questions from multiple dirs into a unique file (default is False)')
     parser.add_argument('--createMBZ', type=str2bool, default=False, help='Create moodle importer (default is False)')
+    parser.add_argument('--canRedoQuiz', type=str2bool, default=False, help='Create moodle importer (default is False)')
 
     return parser.parse_args()
 
@@ -243,8 +235,10 @@ def main():
 
     args = parseArguments()
     
+    # setting default class parameters
     Essay.defaultMark = args.defaultEssayGrade
     CodeRunner.defaultMark = args.defaultPythonGrade
+    CategoryInfo.CanReDo = args.canRedoQuiz
 
     workDir = args.workDir
     mainCategory = args.category
@@ -257,6 +251,7 @@ def main():
         root = args.workDir
         dirList = [ f.path for f in os.scandir(root) if f.is_dir() ]
         questions = []
+        categories = []
         for subDir in dirList:
             currentDir = subDir
             category = os.path.basename(os.path.normpath(subDir))
@@ -268,14 +263,15 @@ def main():
             args.category = mainCategory + '/' + category
             print('processing',subDir, 'category', category)
             questionList = readQuestions(args)
+            categories.append(CategoryInfo(subDir, category))
             questions.append((args.category,questionList))
             #processDir(args)
 
-        for block in questions:
+        for (idx,block) in enumerate(questions):
             (args.category, questionList) = block
 
             if args.createMBZ:
-                moodle.addQuiz(args.category, questionList)
+                moodle.addQuiz(args.category, questionList, categories[idx])
             else:
                 storeQuestionList(questionList, args)
 
