@@ -253,7 +253,7 @@ def main():
     if args.createMBZ:
         moodle = MoodleImport(args)
 
-    if args.processSubDirs and not args.merge:
+    if args.processSubDirs and not args.merge or args.createMBZ:
         root = args.workDir
         dirList = [ f.path for f in os.scandir(root) if f.is_dir() ]
         questions = []
@@ -284,7 +284,7 @@ def main():
             args.category = mainCategory
             moodle.flush()
 
-    elif args.processSubDirs and args.merge:
+    elif args.processSubDirs and args.merge and not args.createMBZ:
         root = args.workDir
         args.xml = "merged.xml"
         questionList = []

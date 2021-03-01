@@ -68,14 +68,15 @@ class Question(object):
         str = str.lower()
         idx = str.rfind(sign)
     
-        if idx == 1:
+        if idx == -1:
             return (str, default)
     
         mark = str[idx + len(sign):].strip()
     
         try:
-            return (str[:,idx], float(mark))
-        except:
+            return (str[:idx], float(mark))
+        except Exception as e:
+            print(e)
             return (str, default)
 
     def write(self, file, indent, line):
@@ -317,9 +318,21 @@ class CodeRunner(Question):
         indent.write(xmlFile, '<parent>0</parent>')
         indent.write(xmlFile, '<name>' + self.name + '</name>')
 
-        text = html.escape(markdown.markdown(self.text,  extensions = EXTENSION_LIST))
+        footerText = ""
+        try:
+            footerFileName = args.footer #os.path.join(args.workDir, args.footer)
+            footerFile = open(footerFileName, 'r')
+            footerText = footerFile.read()
+            footerText = markdown.markdown(footerText, extensions = EXTENSION_LIST)
+            #print(footerText)
+            footerFile.close()
+        except:
+            print("Footer file not available...")
 
-        indent.write(xmlFile, '<questiontext>' + text + '</questiontext>')
+        text = html.escape(markdown.markdown(self.text,  extensions = EXTENSION_LIST))
+        footerText = html.escape(markdown.markdown(footerText,  extensions = EXTENSION_LIST))
+
+        indent.write(xmlFile, '<questiontext>' + text + '\n' + footerText + '</questiontext>')
         indent.write(xmlFile, '<questiontextformat>1</questiontextformat>')
         indent.write(xmlFile, '<generalfeedback></generalfeedback>')
         indent.write(xmlFile, '<generalfeedbackformat>1</generalfeedbackformat>')
@@ -388,6 +401,14 @@ class CodeRunner(Question):
 
     def getFullAnswer(self):
         answer = self.answer
+
+        choices = ['# NO_DEFAULT_ANSWER', '#NO_DEFAULT_ANSWER']
+
+        for marker in choices:
+            if marker in answer:
+                answer = answer.replace(marker, '')
+                return answer
+
         for file in self.fileList:
             answer += '\n# compile to see contents of file ' + file
             answer += '\n# remember to use utf-8 encoding in the open to correctly read non-ascii caharacters'
