@@ -49,19 +49,6 @@ class CategoryInfo(object):
 
     def parseInfo(self):
 
-        html_escape_table = {
-            #"&": "&amp;",
-            #'"': "&quot;",
-            #"'": "&apos;",
-            ">": "&gt;",
-            "<": "&lt;",
-            'è': '&egrave;',
-            'à': '&agrave;',
-            'ì': '&igrave;',
-            'ù': '&ugrave;',
-            'ò': '&ograve;'
-        }
-
         try:
             file = open(os.path.join(self.categoryDir, CategoryInfo.INFO_FILE), 'r', encoding='utf-8')
             lines = file.readlines()
@@ -82,15 +69,9 @@ class CategoryInfo(object):
                     print('intro')
                     for partId in range(1,len(parts)):
                         self.intro += parts[partId].replace('<', '&lt;').replace('>','&gt;')
-                        #self.intro += "".join(html_escape_table.get(c,c) for c in parts[partId])
                         if partId < len(parts) - 1:
                             self.intro += ' '
-                    
-                        #self.intro += parts[idx] + ' '
-                    #escaped = "".join(html_escape_table.get(c,c) for c in self.intro)
-                    #self.intro = escaped
-                    #self.intro = self.intro.replace('<', '&lt;').replace('>','&gt;')
-                    
+
 
                 if not self.readOnlyDescription:
                     if code == 'open':
