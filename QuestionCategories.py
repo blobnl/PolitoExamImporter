@@ -47,6 +47,8 @@ class CategoryInfo(object):
         self.parseInfo()
         self.setValues()
 
+        self.maxvalue = None
+
     def parseInfo(self):
 
         try:
@@ -66,12 +68,15 @@ class CategoryInfo(object):
 
                 
                 if code == 'intro':
-                    print('intro')
+                    print('changing quiz intro')
                     for partId in range(1,len(parts)):
                         self.intro += parts[partId].replace('<', '&lt;').replace('>','&gt;')
                         if partId < len(parts) - 1:
                             self.intro += ' '
 
+                     
+                if code == 'maxvalue':
+                    self.maxvalue = float(parts[1])          
 
                 if not self.readOnlyDescription:
                     if code == 'open':
@@ -86,7 +91,7 @@ class CategoryInfo(object):
                     elif code == 'canredo':
                         self.canredo = str2bool(parts[1])        
                     elif code == 'delay':
-                        self.delay = str(int(parts[1]))          
+                        self.delay = str(int(parts[1]))       
 
 
         except Exception as e:
@@ -184,6 +189,9 @@ class Category(object):
         self.info = ""
         self.isQuiz = False
         self.info = None
+        
+        self.sumGrades = 0
+        self.maxMark = 0
 
         self.questions = []
 
@@ -191,6 +199,17 @@ class Category(object):
         self.questions = questions
         # if it has questions, then it is a quiz that must be saved
         self.isQuiz = True
+
+        
+        for question in questions:
+            self.sumGrades += question.mark
+
+        # check if info defines a max mark, otherwise compute it from the question marks
+        if self.info.maxvalue is not None:
+            self.maxMark = self.info.maxvalue
+        else:
+            self.maxMark = self.sumGrades
+
 
     def writeQuiz(self, activityDir, args):
 
@@ -297,8 +316,8 @@ class Category(object):
         indent.write(file, '<questionsperpage>1</questionsperpage>')
         indent.write(file, '<navmethod>free</navmethod>')
         indent.write(file, '<shuffleanswers>1</shuffleanswers>')
-        indent.write(file, '<sumgrades>32.00000</sumgrades>')
-        indent.write(file, '<grade>32.00000</grade>')
+        indent.write(file, '<sumgrades>' + str(self.sumGrades) + '</sumgrades>')
+        indent.write(file, '<grade>' + str(self.maxMark) + '</grade>')
         indent.write(file, '<timecreated>0</timecreated>')
         indent.write(file, '<timemodified>' + getTimeStamp() + '</timemodified>')
         indent.write(file, '<password></password>')

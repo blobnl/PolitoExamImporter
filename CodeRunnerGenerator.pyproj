@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>bfd1a012-58ff-420c-9bae-5b9c1f5c32ef</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>CodeRunnerGenerator.py</StartupFile>
+    <StartupFile>ComputerGraphics.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -25,6 +25,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ComputerGraphics.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="QuestionTypes.py">
       <SubType>Code</SubType>
     </Compile>

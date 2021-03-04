@@ -74,7 +74,7 @@ class Question(object):
         mark = str[idx + len(sign):].strip()
     
         try:
-            return (str[:idx], float(mark))
+            return (str[:idx].strip(), float(mark))
         except Exception as e:
             print(e)
             return (str, default)

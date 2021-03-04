@@ -78,9 +78,19 @@ def readQuestions(args):
             content = lineCL
             if newQuestion:
                 #writeQuestion(xmlFile, indent, name, text, answer, fileList, args)
+                #print(questionType, name)
+
+                addQuestion(questionList, args, questionTypes[questionType], name, text, answer, fileList)
+
+                '''
+                if name == '' or text == '':
+                    print('Warning: empty question', questionType, name, text)
+
                 newQuestion = questionTypes[questionType](name, text, answer, fileList)
                 newQuestion.workDir = args.workDir
                 questionList.append(newQuestion)
+                '''
+
                 text = ""
                 fileList = []
                 name = ""
@@ -98,13 +108,40 @@ def readQuestions(args):
         elif content == "ANSWER":
             answer += line
 
-            
-    newQuestion = questionTypes[questionType](name, text, answer, fileList)
+    '''
+    try:
+        if name == '' or text == '':
+            print('Warning: empty question', questionType, name, text)
+
+        newQuestion = questionTypes[questionType](name, text, answer, fileList)
+    except Exception as e:
+        print('Error in creating question', e)
+
+
     newQuestion.workDir = args.workDir
     questionList.append(newQuestion)
+    '''
+    
+    addQuestion(questionList, args, questionTypes[questionType], name, text, answer, fileList)
+
     print('Trovate',len(questionList),'domande')
     return questionList
             
+def addQuestion(questionList, args, questionClass, name, text, answer, fileList):
+
+    try:
+        if name == '' or text == '':
+            print('Warning: empty question', type(questionClass), name, text)
+
+        newQuestion = questionClass(name, text, answer, fileList)
+        newQuestion.workDir = args.workDir
+        questionList.append(newQuestion)
+    except Exception as e:
+        print('Error in creating question', type(questionClass), name, text, e)
+
+    return newQuestion
+
+
 def writeHtmlHeader(file, args):
     file.write('<!DOCTYPE html>')
     file.write('<html>')
