@@ -16,8 +16,8 @@ class ComputerGraphics(object):
 
     def createBackup(self):
         MAX_MARK = 12
-        Q1 = 8
-        Q2 = 2
+        Q1 = 6
+        Q2 = 3
 
         moodle = MoodleImport(self.args)
         mainCategory = 'CG21'
@@ -171,7 +171,7 @@ class ComputerGraphics(object):
 ################ Main #####################
 
 
-def main():
+def CGmain():
 
     HOME_DIR = 'G:\\Didattica\\Computer Graphics\\Esami\\2021\\AEG'
 
@@ -184,6 +184,7 @@ def main():
 
 
 
-main()
+if __name__ == "__main__":
+    CGmain()
 
 

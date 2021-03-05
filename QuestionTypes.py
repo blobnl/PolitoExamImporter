@@ -122,14 +122,14 @@ class CodeRunner(Question):
     ID = 1
     defaultMark = 26.0
 
-    def __init__(self, name, text, answer, fileList):
+    def __init__(self, **kwargs):
         super(CodeRunner, self).__init__()
-        self.text = text
-        self.name = name
-        self.fileList = fileList
-        self.answer = answer
+        self.text = kwargs['text']
+        self.name = kwargs['name']
+        self.fileList = kwargs['fileList']
+        self.answer = kwargs['answer']
         self.workDir = '.'
-        (self.name, self.mark) = self.setMark(name, CodeRunner.defaultMark)
+        (self.name, self.mark) = self.setMark(self.name, CodeRunner.defaultMark)
 
         self.coderunnerId = CodeRunner.ID
         CodeRunner.ID += 1
@@ -427,14 +427,15 @@ class Essay(Question):
         Essay.ID += 1
         return Essay.ID - 1
 
-    def __init__(self, name, text, answer, fileList):
+    def __init__(self, **kwargs):
         super(Essay, self).__init__()
-        self.text = text
-        self.name = name
-        self.answer = answer
+        self.text = kwargs['text']
+        self.name = kwargs['name']
+        self.answer = kwargs['answer']
+        self.correct = kwargs['correct']
         self.workDir = '.'
         self.essayId = Essay.getId()
-        (self.name, self.mark) = self.setMark(name, Essay.defaultMark)
+        (self.name, self.mark) = self.setMark(self.name, Essay.defaultMark)
         
     def writeExportFiles(self, file, args, root):
         pass
@@ -486,7 +487,10 @@ class Essay(Question):
         indent.write(xmlFile, '<responsefieldlines>15</responsefieldlines>')
         indent.write(xmlFile, '<attachments>0</attachments>')
         indent.write(xmlFile, '<attachmentsrequired>0</attachmentsrequired>')
-        indent.write(xmlFile, '<graderinfo></graderinfo>')
+
+        correct = html.escape(markdown.markdown(self.correct,  extensions = EXTENSION_LIST))
+
+        indent.write(xmlFile, '<graderinfo>' + correct + '</graderinfo>')
         indent.write(xmlFile, '<graderinfoformat>1</graderinfoformat>')
 
         answer = html.escape(markdown.markdown(self.answer,  extensions = EXTENSION_LIST))

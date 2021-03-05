@@ -43,6 +43,7 @@ class CategoryInfo(object):
         self.delay = 0
         self.canredo = CategoryInfo.CanReDo
         self.intro = ''
+        self.shuffle = '0'
         
         self.parseInfo()
         self.setValues()
@@ -73,10 +74,10 @@ class CategoryInfo(object):
                         self.intro += parts[partId].replace('<', '&lt;').replace('>','&gt;')
                         if partId < len(parts) - 1:
                             self.intro += ' '
-
-                     
-                if code == 'maxvalue':
-                    self.maxvalue = float(parts[1])          
+                elif code == 'maxvalue':
+                    self.maxvalue = float(parts[1])     
+                elif code == 'shuffle':
+                    self.shuffle = str(int(parts[1]))
 
                 if not self.readOnlyDescription:
                     if code == 'open':
@@ -366,7 +367,7 @@ class Category(object):
         indent.inc()
         indent.write(file, '<firstslot>1</firstslot>')
         indent.write(file, '<heading></heading>')
-        indent.write(file, '<shufflequestions>0</shufflequestions>')
+        indent.write(file, '<shufflequestions>' + self.info.shuffle + '</shufflequestions>')
         indent.dec()
         indent.write(file, '</section>')
         indent.dec()

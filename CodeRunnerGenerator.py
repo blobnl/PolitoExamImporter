@@ -54,13 +54,14 @@ def readQuestions(args):
     file = open(inputFileName, "r", encoding="utf-8")
     lines = file.readlines()
 
-    text = ""
-    content = ""
+    text = ''
+    content = ''
     fileList = []
-    name = ""
-    answer = ""
+    name = ''
+    answer = ''
+    correct = ''
     newQuestion = False
-    questionType = ""
+    questionType = ''
     questionTypes = {"QUESTION": CodeRunner, "ESSAY": Essay, 'CHEATSHEET' : CheatSheet, 'MULTICHOICE' : MultiChoice}
 
     questionList = []
@@ -74,27 +75,21 @@ def readQuestions(args):
             content = lineCL
         elif lineCL == "ANSWER":
             content = lineCL
+        elif lineCL == "CORRECT":
+            content = lineCL
         elif lineCL in questionTypes:
             content = lineCL
             if newQuestion:
-                #writeQuestion(xmlFile, indent, name, text, answer, fileList, args)
                 #print(questionType, name)
+                addQuestion(questionList, args, questionTypes[questionType], **{'name':name, 'text':text, 'answer':answer, 'fileList':fileList, 'correct':correct})
 
-                addQuestion(questionList, args, questionTypes[questionType], name, text, answer, fileList)
-
-                '''
-                if name == '' or text == '':
-                    print('Warning: empty question', questionType, name, text)
-
-                newQuestion = questionTypes[questionType](name, text, answer, fileList)
-                newQuestion.workDir = args.workDir
-                questionList.append(newQuestion)
-                '''
-
-                text = ""
+                # cleaning fields for next question
+                text = ''
                 fileList = []
-                name = ""
-                answer = ""
+                name = ''
+                answer = ''
+                correct = ''
+
             newQuestion = True
             questionType = lineCL
         elif content == "TEXT":
@@ -107,37 +102,28 @@ def readQuestions(args):
                 name = lineCL
         elif content == "ANSWER":
             answer += line
+        elif content == "CORRECT":
+            correct += line
 
-    '''
-    try:
-        if name == '' or text == '':
-            print('Warning: empty question', questionType, name, text)
-
-        newQuestion = questionTypes[questionType](name, text, answer, fileList)
-    except Exception as e:
-        print('Error in creating question', e)
-
-
-    newQuestion.workDir = args.workDir
-    questionList.append(newQuestion)
-    '''
     
-    addQuestion(questionList, args, questionTypes[questionType], name, text, answer, fileList)
+    addQuestion(questionList, args, questionTypes[questionType], **{'name':name, 'text':text, 'answer':answer, 'fileList':fileList, 'correct':correct})
 
     print('Trovate',len(questionList),'domande')
     return questionList
             
-def addQuestion(questionList, args, questionClass, name, text, answer, fileList):
+def addQuestion(questionList, args, questionClass, **kwargs):
+
+    newQuestion = None
 
     try:
-        if name == '' or text == '':
-            print('Warning: empty question', type(questionClass), name, text)
+        if kwargs['name'] == '' or kwargs['text'] == '':
+            print('Warning: empty question', type(questionClass), kwargs['name'], kwargs['text'])
 
-        newQuestion = questionClass(name, text, answer, fileList)
+        newQuestion = questionClass(**kwargs)
         newQuestion.workDir = args.workDir
         questionList.append(newQuestion)
     except Exception as e:
-        print('Error in creating question', type(questionClass), name, text, e)
+        print('Error in creating question', type(questionClass), kwargs['name'], kwargs['text'], e)
 
     return newQuestion
 
@@ -268,7 +254,7 @@ def createUniqueImport(args):
 
 
 
-def main():
+def CRGmain():
 
     args = parseArguments()
     
@@ -345,4 +331,5 @@ def main():
         createUniqueImport(args)
 
 
-main()
+if __name__ == "__main__":
+    CRGmain()
