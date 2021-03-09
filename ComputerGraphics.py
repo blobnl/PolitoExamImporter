@@ -4,6 +4,7 @@ from QuestionTypes import Essay
 from QuestionCategories import CategoryInfo
 from MoodleImporterGenerator import MoodleImport
 from random import randrange
+import operator
 
 class ComputerGraphics(object):
     """description of class"""
@@ -26,6 +27,40 @@ class ComputerGraphics(object):
         # repeat until it is possible to create a new quiz
         complete = False
         limits = [0, Q1, Q2, 0]
+
+        # balance the questions
+
+        q1List = []
+        q1RefList = []
+        for (key,value) in self.questions[1].items():
+            q1List.extend(value)
+            q1RefList.append([len(value), key])
+
+        q1RefList.sort(key = operator.itemgetter(0))
+        
+        q2List = []
+        for (key,value) in self.questions[2].items():
+            q2List.extend(value)
+            
+        initSize = len(q2List)
+        finalSize = int(initSize * Q1/Q2)
+        print('Balancing questions, adding', finalSize - initSize,'Q1 questions')
+        print(q1List)
+
+        for i in range(finalSize - initSize):
+            # select the category key and the corresponding question list
+            category = q1RefList[0][1]
+            # increasing question count for category
+            q1RefList[0][0] += 1  
+            questionList = self.questions[1][category]
+            print('Adding random', category, 'question')
+
+            # clone a random question
+            question = questionList[randrange(len(questionList))]
+            self.questions[1][question.name.lower()].append(question)
+
+            # re-sort refList to get the category less represented at next round
+            q1RefList.sort(key = operator.itemgetter(0))
 
         quizNr = 1
 
@@ -83,6 +118,9 @@ class ComputerGraphics(object):
             return None
 
         tagList = list(tags)
+        if set(tagList).issubset(quizTags):
+            print(f'No more tags I can use for mark Q{mark}...')
+            return None
 
         done = False
         while not done:
