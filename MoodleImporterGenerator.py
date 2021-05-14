@@ -9,6 +9,7 @@ from Indent import Indent
 from QuestionCategories import Category
 from QuestionTypes import getTimeStamp
 import tarfile
+import CodeRunnerGenerator as CRG
 
 '''
 # get timestamp in seconds
@@ -33,8 +34,10 @@ class MoodleImport(object):
         self.backupType = 'course' # or 'activity'
         
         self.root = os.path.join(self.args.workDir, self.args.category)
+        self.xmlDir = os.path.join(self.args.workDir, 'XMLquiz')
         self.activityDir = os.path.join(self.root, 'activities')
         os.makedirs(self.activityDir, exist_ok = True)
+        os.makedirs(self.xmlDir, exist_ok = True)
 
         self.backupName = self.args.category + '.mbz'
 
@@ -200,8 +203,58 @@ class MoodleImport(object):
         if len(parts) > 1:
             newCategory.parent = self.categories[parts[-2]].categoryId
 
+    def categoryById(self, id):
+        for key in self.categories:
+            if self.categories[key].categoryId == id:
+                return self.categories[key]
+
+        return None
+
+    def writeXml(self):
+        # directory where to save XML
+        oldWorkDir = self.args.workDir
+        oldCategory = self.args.category
+        oldXML = self.args.xml
+
+
+        for key in self.categories:
+            # getting question list
+            quiz = self.categories[key]
+
+            if not quiz.isQuiz:
+                continue
+
+            category = key
+            parent = self.categoryById(quiz.parent)
+            while parent is not None:
+                category = parent.name + '\\' + category
+                parent = self.categoryById(parent.parent)
+
+            self.args.xml = key + '.xml'
+            self.args.category = category
+            self.args.workDir = os.path.join(self.xmlDir, key)
+            os.makedirs(self.args.workDir, exist_ok = True)
+
+            CRG.storeQuestionList(quiz.questions, self.args)
+
+        # creating unique import
+        self.args.category = 'CG_quizzes'
+        self.args.xml = self.args.category
+        self.args.workDir = self.xmlDir
+        CRG.createUniqueImport(self.args)
+
+        # update args
+        self.args.workDir = oldWorkDir
+        self.args.xml = oldXML
+        self.args.category = oldCategory
+
 
     def flush(self):
+
+        # uncomment this if you want to save xml import file for question bank
+
+        #self.writeXml()
+        #return
 
         # empty files
         # groups
