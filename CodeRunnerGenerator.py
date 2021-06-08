@@ -8,7 +8,9 @@ import glob
 from Indent import Indent
 from QuestionTypes import Essay, CodeRunner, CheatSheet, MultiChoice
 from QuestionCategories import CategoryInfo,str2bool
-from MoodleImporterGenerator import MoodleImport
+import MoodleImporterGenerator
+
+#from MoodleImporterGenerator import MoodleImport
 
 
 
@@ -51,7 +53,13 @@ def readQuestions(args):
 
 
 
-    file = open(inputFileName, "r", encoding="utf-8")
+    try:
+        file = open(inputFileName, "r", encoding="utf-8")
+    except Exception as e:
+        print("\tError in opening", inputFileName)
+        print("\tError:", str(e))
+        return None
+
     lines = file.readlines()
 
     text = ''
@@ -268,7 +276,7 @@ def CRGmain():
     #print(args)
 
     if args.createMBZ:
-        moodle = MoodleImport(args)
+        moodle = MoodleImporterGenerator.MoodleImport(args)
 
     if args.processSubDirs and not args.merge or args.createMBZ:
         root = args.workDir
@@ -286,6 +294,10 @@ def CRGmain():
             args.category = mainCategory + '/' + category
             print('processing',subDir, 'category', category)
             questionList = readQuestions(args)
+
+            if questionList is None:
+                continue
+
             if args.canRedoQuiz:
                 categories.append(CategoryInfo(subDir, readOnlyDescription = True))
             else:

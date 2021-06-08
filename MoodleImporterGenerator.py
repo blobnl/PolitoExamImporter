@@ -37,7 +37,6 @@ class MoodleImport(object):
         self.xmlDir = os.path.join(self.args.workDir, 'XMLquiz')
         self.activityDir = os.path.join(self.root, 'activities')
         os.makedirs(self.activityDir, exist_ok = True)
-        os.makedirs(self.xmlDir, exist_ok = True)
 
         self.backupName = self.args.category + '.mbz'
 
@@ -211,6 +210,9 @@ class MoodleImport(object):
         return None
 
     def writeXml(self):
+        # create root for XML dirs 
+        os.makedirs(self.xmlDir, exist_ok = True)
+
         # directory where to save XML
         oldWorkDir = self.args.workDir
         oldCategory = self.args.category

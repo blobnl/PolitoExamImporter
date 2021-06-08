@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>bfd1a012-58ff-420c-9bae-5b9c1f5c32ef</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>ComputerGraphics.py</StartupFile>
+    <StartupFile>CodeRunnerGenerator.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -13,7 +13,7 @@
     <RootNamespace>CodeRunnerGenerator</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>--workDir "D:\Dropbox (Politecnico di Torino Staff)\Informatica\WInterSession-II Compiti pubblicabili su Exercise" --xml informatica.xml --questionFile domande.txt --category "AppelloII-2021" --createMBZ True --enableACE True --canRedoQuiz True --processSubDirs True --merge False --createUniqueImport True</CommandLineArguments>
+    <CommandLineArguments>--workDir "D:\Dropbox (Politecnico di Torino Staff)\Informatica\Summer Session" --xml informatica.xml --questionFile domande.txt --category "AppelloIII-2021" --createMBZ True --enableACE False --canRedoQuiz False --processSubDirs True --merge False --createUniqueImport True</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
