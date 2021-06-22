@@ -255,7 +255,7 @@ class MoodleImport(object):
 
         # uncomment this if you want to save xml import file for question bank
 
-        #self.writeXml()
+        self.writeXml()
         #return
 
         # empty files

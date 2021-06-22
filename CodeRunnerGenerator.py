@@ -193,6 +193,24 @@ def storeQuestionList(questionList, args):
     except Exception as e:
         print('Error in craeting questions for', xmlFile,e)
 
+def storeHTMLPreview(questionList, args):
+    try:
+        indent = Indent()
+        htmlFile = open(os.path.join(args.workDir, args.xml + '.html'), "w", encoding="utf-8")
+
+        writeHtmlHeader(htmlFile, args)
+        indent.inc()
+
+        for question in questionList:
+            question.writeHtml(htmlFile, args)
+
+        indent.dec()
+        writeHtmlFooter(htmlFile)
+        htmlFile.close()
+
+    except Exception as e:
+        print('Error in craeting questions for', htmlFile,e)
+
 def processDir(args):
     try:
         questionList = readQuestions(args)
@@ -303,6 +321,7 @@ def CRGmain():
             else:
                 categories.append(CategoryInfo(subDir))
             questions.append((args.category,questionList))
+            storeHTMLPreview(questionList, args)
             #processDir(args)
 
         for (idx,block) in enumerate(questions):

@@ -294,7 +294,7 @@ class Category(object):
         indent.write(file, '<timeclose>' + str(self.info.close) + '</timeclose>')
         indent.write(file, '<timelimit>' + str(self.info.duration) + '</timelimit>')
         indent.write(file, '<overduehandling>autosubmit</overduehandling>')
-        indent.write(file, '<graceperiod>0</graceperiod>')
+        indent.write(file, '<graceperiod>' + str(self.info.delay) + '</graceperiod>')
         indent.write(file, '<preferredbehaviour>interactive</preferredbehaviour>')
         indent.write(file, '<canredoquestions>0</canredoquestions>')
 
@@ -324,8 +324,8 @@ class Category(object):
         indent.write(file, '<password></password>')
         indent.write(file, '<subnet></subnet>')
         indent.write(file, '<browsersecurity>-</browsersecurity>')
-        indent.write(file, '<delay1>' + str(self.info.delay) + '</delay1>')
-        indent.write(file, '<delay2>1</delay2>')
+        indent.write(file, '<delay1>0</delay1>')
+        indent.write(file, '<delay2>0</delay2>')
         indent.write(file, '<showuserpicture>0</showuserpicture>')
         indent.write(file, '<showblocks>0</showblocks>')
         indent.write(file, '<completionattemptsexhausted>0</completionattemptsexhausted>')
@@ -506,7 +506,7 @@ class Category(object):
         # if coderunner, one entry for text (no file) and the other for files --> 2char for dir, hash for name, myme type as original
 
         for question in self.questions:
-            question.writeExportFiles(file, args, root)
+                question.writeExportFiles(file, args, root)
 
     def writeXml(self, file, args):
         indent = Indent()
