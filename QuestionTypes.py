@@ -566,12 +566,15 @@ class CheatSheet(Question):
         self.ACCESSIBLE = 'accessible_cheatsheet.pdf'
         self.cheatsheetId = Essay.getId()
         
+        self.text = ""
+        '''
         self.text = (
             '<ul><li><a href="@@PLUGINFILE@@/' + self.NORMAL + ''
             '" class="md-opjjpmhoiojifppkkcdabiobhakljdgm_doc" target="_blank">File PDF con le funzioni di Python</a></li>' 
             '<li><a href="@@PLUGINFILE@@/' + self.ACCESSIBLE + ''
             '" class="md-opjjpmhoiojifppkkcdabiobhakljdgm_doc" target="_blank">File PDF con le funzioni di Python (versione accessibile)</a><br></li></ul>'
         )
+        '''
 
     # fro the html control file
     def writeHtml(self, file, args):

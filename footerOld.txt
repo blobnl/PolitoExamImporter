@@ -1,0 +1,12 @@
+**NOTA**:
+premete il pulsante "verifica risposta" per eseguire il codice 
+(ricordatevi che non è necessario per l'esame che il codice sia 
+compilabile ed eseguibile correttamente; la possibilità di eseguirlo vi 
+permette di controllare se quello che avete scritto funziona. Verrà 
+comunque corretta la logica del programma e l'approccio alla sua 
+soluzione)
+
+**DOCUMENTAZIONE**: [Documentazione online di Python](https://docs.python.org/3/ "Doc. python"){: target="_blank" }.
+<ul><li><a href="https://exam.polito.it/pluginfile.php/542952/question/questiontext/1374670/1/632779/14bhd_cheat_sheet_1.1.pdf" target="_blank">File PDF con le funzioni di Python</a></li><li><a href="https://exam.polito.it/pluginfile.php/542952/question/questiontext/1374671/1/632779/accessible%2014bhd_cheat_sheet.pdf" target="_blank">File PDF con le funzioni di Python (versione accessibile)</a><br></li></ul>
+
+
