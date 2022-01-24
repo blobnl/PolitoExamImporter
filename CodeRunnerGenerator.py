@@ -6,7 +6,7 @@ import os
 import glob
 
 from Indent import Indent
-from QuestionTypes import Essay, CodeRunner, CheatSheet, MultiChoice
+from QuestionTypes import Essay, CodeRunner, CheatSheet, MultiChoice, CrownLab
 from QuestionCategories import CategoryInfo,str2bool
 import MoodleImporterGenerator
 
@@ -70,7 +70,7 @@ def readQuestions(args):
     correct = ''
     newQuestion = False
     questionType = ''
-    questionTypes = {"QUESTION": CodeRunner, "ESSAY": Essay, 'CHEATSHEET' : CheatSheet, 'MULTICHOICE' : MultiChoice}
+    questionTypes = {"QUESTION": CrownLab, "ESSAY": Essay, 'CHEATSHEET' : CheatSheet, 'MULTICHOICE' : MultiChoice}
 
     questionList = []
 
