@@ -23,3 +23,5 @@
 #
 # se la vostra tastiera è guasta potete fare copia/incolla anche con il mouse
 # e per i caratteri speciali potete copiare da questi caratteri  [  ]  {  }  <  >
+# print(string.punctuation)
+## ! " # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \ ] ^ _ ` { | } ~
