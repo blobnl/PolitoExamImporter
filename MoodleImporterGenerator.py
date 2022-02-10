@@ -240,7 +240,7 @@ class MoodleImport(object):
             CRG.storeQuestionList(quiz.questions, self.args)
 
         # creating unique import
-        self.args.category = 'CG_quizzes'
+        self.args.category = 'AllQuizzes'
         self.args.xml = self.args.category
         self.args.workDir = self.xmlDir
         CRG.createUniqueImport(self.args)

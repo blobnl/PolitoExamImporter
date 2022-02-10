@@ -89,7 +89,8 @@ def readQuestions(args):
             content = lineCL
             if newQuestion:
                 #print(questionType, name)
-                addQuestion(questionList, args, questionTypes[questionType], **{'name':name, 'text':text, 'answer':answer, 'fileList':fileList, 'correct':correct})
+                addedQuestion = addQuestion(questionList, args, questionTypes[questionType], **{'name':name, 'text':text, 'answer':answer, 'fileList':fileList, 'correct':correct})
+                addedQuestion.positionInQuiz = len(questionList)
 
                 # cleaning fields for next question
                 text = ''
@@ -114,7 +115,8 @@ def readQuestions(args):
             correct += line
 
     
-    addQuestion(questionList, args, questionTypes[questionType], **{'name':name, 'text':text, 'answer':answer, 'fileList':fileList, 'correct':correct})
+    addedQuestion = addQuestion(questionList, args, questionTypes[questionType], **{'name':name, 'text':text, 'answer':answer, 'fileList':fileList, 'correct':correct})
+    addedQuestion.positionInQuiz = len(questionList)
 
     print('Trovate',len(questionList),'domande')
     return questionList

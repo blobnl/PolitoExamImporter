@@ -83,6 +83,7 @@ class Question(object):
         self.workDir = '.'
         self.id = getQuestionId()
         self.mark = 0
+        self.positionInQuiz = 0
         
     def setMark(self, str, default):
         sign = '@m'
@@ -102,6 +103,9 @@ class Question(object):
 
     def write(self, file, indent, line):
         return
+
+    def writeXml(self, file, indent, line):
+        pass
 
     def getFileId():
         Question.fileID += 1
@@ -137,6 +141,19 @@ class Question(object):
         indent.write(xmlFile, '<reference>$@NULL@$</reference>')
         indent.dec()
         indent.write(xmlFile, '</file>')
+
+    '''
+        function for writing the XML file for moodle import into question bank
+    '''
+    def writeQuestion(self, xmlFile, indent, args):
+        pass
+
+    '''
+        function for writing the XML for the moodle backup
+    '''
+    def writeImportQuestion(self, xmlFile, indent, args):
+        pass
+
 
 class CodeRunner(Question):
 
@@ -544,7 +561,7 @@ class Essay(Question):
         indent.inc()
         indent.write(xmlFile, "<name>")
         indent.inc()
-        indent.write(xmlFile, "<text> " + self.name + " </text>")
+        indent.write(xmlFile, "<text> " + f"{self.positionInQuiz:02d} {self.name}" + " </text>")
         indent.dec()
         indent.write(xmlFile, "</name>")
 
@@ -601,14 +618,7 @@ class CheatSheet(Question):
         self.text = ('<p><b>Documentazione online di Python</b> (<a href="https://docs.python.org/3/" target="_blank">python.org</a>)</p>'
             '<p><b>CheatSheet </b><a href="@@PLUGINFILE@@/' + self.NORMAL + '" target="_blank">PDF</a></p>'
             '<p><b>CheatSheet (versione accessibile)</b> <a href="@@PLUGINFILE@@/' + self.ACCESSIBLE + '" target="_blank">PDF</a><br></p>')
-        '''
-        self.text = (
-            '<ul><li><a href="@@PLUGINFILE@@/' + self.NORMAL + ''
-            '" class="md-opjjpmhoiojifppkkcdabiobhakljdgm_doc" target="_blank">File PDF con le funzioni di Python</a></li>' 
-            '<li><a href="@@PLUGINFILE@@/' + self.ACCESSIBLE + ''
-            '" class="md-opjjpmhoiojifppkkcdabiobhakljdgm_doc" target="_blank">File PDF con le funzioni di Python (versione accessibile)</a><br></li></ul>'
-        )
-        '''
+        
 
     # fro the html control file
     def writeHtml(self, file, args):
@@ -622,7 +632,7 @@ class CheatSheet(Question):
         indent.write(xmlFile, '<question id="' + str(self.cheatsheetId) + '">')
         indent.inc()
         indent.write(xmlFile, '<parent>0</parent>')
-        indent.write(xmlFile, '<name>Cheat sheet PDF</name>')
+        indent.write(xmlFile, f'<name>{self.positionInQuiz:02d} Cheat sheet PDF </name>')
 
         text = self.text.replace('<', '&lt;').replace('>','&gt;')
 
@@ -658,7 +668,7 @@ class CheatSheet(Question):
       
         indent.write(xmlFile, '<question type="description">')
         indent.inc()
-        indent.write(xmlFile, '<name><text>Documentazione Python</text></name>')
+        indent.write(xmlFile, f'<name><text>{self.positionInQuiz:02d} Documentazione Python</text></name>')
         indent.write(xmlFile, '<questiontext format="html">')
         indent.inc()
         
