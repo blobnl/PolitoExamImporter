@@ -786,10 +786,10 @@ class CrownLab(Question):
     def writeImportQuestion(self, xmlFile, indent, args):
         pass
 
-    def createZipFile(self):
+    def createZipFile(self, directory):
 
         # 1. create the exam dir that will be zipped
-        examDir = os.path.join(self.workDir, "exam")
+        examDir = os.path.join(directory, "exam")
         #if os.path.exists(examDir) and os.path.isdir(examDir):
         
         try:
@@ -819,7 +819,7 @@ class CrownLab(Question):
             for fileName in self.fileList:
                 file.write(f"print(open('{fileName}', 'r').read())\nprint()\n")
 
-        zipFile = os.path.join(self.workDir, "exam")
+        zipFile = os.path.join(directory, "exam")
         try:
             os.remove(zipFile)
         except OSError:
@@ -838,7 +838,7 @@ class CrownLab(Question):
 
     # for moodle XML import file
     def writeQuestion(self, xmlFile, indent, args):
-        self.createZipFile()
+        self.createZipFile(os.path.dirname(os.path.abspath(xmlFile.name)))
         self.createCLText()
         
         indent.write(xmlFile, '<question type="crownlabs2">')
