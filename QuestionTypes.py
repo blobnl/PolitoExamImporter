@@ -840,7 +840,36 @@ class CrownLab(Question):
     def writeQuestion(self, xmlFile, indent, args):
         self.createZipFile()
         self.createCLText()
-        pass
+        
+        indent.write(xmlFile, '<question type="crownlabs2">')
+        indent.inc()
+        indent.write(xmlFile, '<name>')
+        indent.inc()
+        #indent.write(xmlFile, '<text>test export</text>')
+        # f'<name><text>{self.positionInQuiz:02d} Documentazione Python</text></name>
+        indent.write(xmlFile, '<text><![CDATA[' + f'{self.positionInQuiz:02d} ' + self.name + ']]></text>')
+        indent.dec()
+        indent.write(xmlFile, '</name>')
+        indent.write(xmlFile, '<questiontext format="html">')
+        indent.inc()
+        
+        text = markdown.markdown(self.text,  extensions = EXTENSION_LIST)
+
+        indent.write(xmlFile, '<text><![CDATA[' + text + ']]></text>')
+        indent.dec()
+        indent.write(xmlFile, '</questiontext>')
+        indent.write(xmlFile, '<generalfeedback format="moodle_auto_format">')
+        indent.inc()
+        indent.write(xmlFile, '<text></text>')
+        indent.dec()
+        indent.write(xmlFile, '</generalfeedback>')
+        indent.write(xmlFile, '<defaultgrade>' + str(self.mark) + '</defaultgrade>')
+        indent.write(xmlFile, '<penalty>0.0000000</penalty>')
+        indent.write(xmlFile, '<hidden>0</hidden>')
+        indent.write(xmlFile, '<template>pycharm2021-persistent</template>')
+        indent.write(xmlFile, '<filepath>000000</filepath>')
+        indent.dec()
+        indent.write(xmlFile, '</question>')
         
     def writeExportFiles(self, file, args, root):
         pass
