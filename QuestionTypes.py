@@ -37,7 +37,7 @@ def binaryFile2base64(fileName):
     content = open(fileName, "rb").read()
     result_enc = base64.b64encode(content)
     # then, removing the b'....' characters of teh textual encoding of byte arrays
-    return str(result_enc)[2:-2]
+    return str(result_enc)[2:-1]
 
 
 def getTimeStamp():
@@ -610,14 +610,26 @@ class CheatSheet(Question):
         super(CheatSheet, self).__init__()
 
         self.dataDir = './cheatsheet'
-        self.NORMAL = 'CS.pdf'
-        self.ACCESSIBLE = 'CSA.pdf'
         self.cheatsheetId = Essay.getId()
         self.name = 'Cheatsheet'
+
+        self.english = False
+        if 'eng' in kwargs['name'].lower():
+            self.english = True
         
-        self.text = ('<p><b>Documentazione online di Python</b> (<a href="https://docs.python.org/3/" target="_blank">python.org</a>)</p>'
-            '<p><b>CheatSheet </b><a href="@@PLUGINFILE@@/' + self.NORMAL + '" target="_blank">PDF</a></p>'
-            '<p><b>CheatSheet (versione accessibile)</b> <a href="@@PLUGINFILE@@/' + self.ACCESSIBLE + '" target="_blank">PDF</a><br></p>')
+        if not self.english:
+            self.NORMAL = 'CS.pdf'
+            self.ACCESSIBLE = 'CSA.pdf'
+            self.text = ('<p><b>Documentazione online di Python</b> (<a href="https://docs.python.org/3/" target="_blank">python.org</a>)</p>'
+                '<p><b>CheatSheet </b><a href="@@PLUGINFILE@@/' + self.NORMAL + '" target="_blank">PDF</a></p>'
+                '<p><b>CheatSheet (versione accessibile)</b> <a href="@@PLUGINFILE@@/' + self.ACCESSIBLE + '" target="_blank">PDF</a><br></p>')
+        else:
+            self.NORMAL = 'CSeng.pdf'
+            self.ACCESSIBLE = 'CSAeng.pdf'
+        
+            self.text = ('<p><b>Online Python documentation</b> (<a href="https://docs.python.org/3/" target="_blank">python.org</a>)</p>'
+                '<p><b>CheatSheet </b><a href="@@PLUGINFILE@@/' + self.NORMAL + '" target="_blank">PDF</a></p>'
+                '<p><b>CheatSheet (accessible version)</b> <a href="@@PLUGINFILE@@/' + self.ACCESSIBLE + '" target="_blank">PDF</a><br></p>')
         
 
     # fro the html control file
@@ -672,18 +684,18 @@ class CheatSheet(Question):
         indent.write(xmlFile, '<questiontext format="html">')
         indent.inc()
         
-        indent.write(xmlFile, '<text><![CDATA[<p><b>Documentazione online di Python</b> (<a href="https://docs.python.org/3/" target="_blank">python.org</a>)</p><p><b>CheatSheet </b><a href="@@PLUGINFILE@@/CS.pdf" target="_blank">PDF</a></p><p><b>CheatSheet (versione accessibile)</b> <a href="@@PLUGINFILE@@/CSA.pdf" target="_blank">PDF</a><br></p>]]></text>')
+        indent.write(xmlFile, '<text><![CDATA[' + self.text + ']]></text>')
         
         
         #''' saving binary files:
         # something wrong with the first two bytes that should not be included into the PDF file (otherwise it looks corrupted)
         content = open(os.path.join(self.dataDir, self.NORMAL), "rb").read()
         result_enc = base64.b64encode(content)
-        indent.write(xmlFile, '<file name="CS.pdf" path="/" encoding="base64">' + str(result_enc)[2:] + '</file>')
+        indent.write(xmlFile, f'<file name="{self.NORMAL}" path="/" encoding="base64">' + str(result_enc)[2:] + '</file>')
         #result = b64encode(content)
         content = open(os.path.join(self.dataDir, self.ACCESSIBLE), "rb").read()
         result_enc = base64.b64encode(content)
-        indent.write(xmlFile, '<file name="CSA.pdf" path="/" encoding="base64">' + str(result_enc)[2:] + '</file>')
+        indent.write(xmlFile, f'<file name="{self.ACCESSIBLE}" path="/" encoding="base64">' + str(result_enc)[2:] + '</file>')
         #content = open(os.path.join(self.dataDir, self.NORMAL), "rb").read()
         #'''
 
@@ -825,7 +837,9 @@ class CrownLab(Question):
         except OSError:
             pass
 
-        make_archive(zipFile, 'zip', examDir)
+        archiveFormat = 'zip'
+        make_archive(zipFile, archiveFormat, examDir)
+        return binaryFile2base64(zipFile + '.' + archiveFormat)
 
     def createCLText(self):
         #text = html.escape(markdown.markdown(self.text,  extensions = EXTENSION_LIST))
@@ -838,7 +852,8 @@ class CrownLab(Question):
 
     # for moodle XML import file
     def writeQuestion(self, xmlFile, indent, args):
-        self.createZipFile(os.path.dirname(os.path.abspath(xmlFile.name)))
+        print("Saving crownlab question:", self.name,"\n\tUsing files", self.fileList)
+        zipFileContent = self.createZipFile(os.path.dirname(os.path.abspath(xmlFile.name)))
         self.createCLText()
         
         indent.write(xmlFile, '<question type="crownlabs2">')
@@ -867,7 +882,9 @@ class CrownLab(Question):
         indent.write(xmlFile, '<penalty>0.0000000</penalty>')
         indent.write(xmlFile, '<hidden>0</hidden>')
         indent.write(xmlFile, '<template>pycharm2021-persistent</template>')
-        indent.write(xmlFile, '<filepath>000000</filepath>')
+
+        indent.write(xmlFile, '<file name="exam.zip" path="/" encoding="base64">' + zipFileContent + '</file>')
+
         indent.dec()
         indent.write(xmlFile, '</question>')
         

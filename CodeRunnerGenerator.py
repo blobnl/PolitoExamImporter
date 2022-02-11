@@ -113,6 +113,9 @@ def readQuestions(args):
             answer += line
         elif content == "CORRECT":
             correct += line
+        elif content == "CHEATSHEET":
+            if lineCL != "":
+                text = lineCL
 
     
     addedQuestion = addQuestion(questionList, args, questionTypes[questionType], **{'name':name, 'text':text, 'answer':answer, 'fileList':fileList, 'correct':correct})
