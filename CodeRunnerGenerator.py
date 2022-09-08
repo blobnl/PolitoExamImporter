@@ -68,6 +68,7 @@ def readQuestions(args):
     name = ''
     answer = ''
     correct = ''
+    destination = ''
     newQuestion = False
     questionType = ''
     questionTypes = {"QUESTION": CrownLab, "ESSAY": Essay, 'CHEATSHEET' : CheatSheet, 'MULTICHOICE' : MultiChoice}
@@ -85,11 +86,19 @@ def readQuestions(args):
             content = lineCL
         elif lineCL == "CORRECT":
             content = lineCL
+        elif lineCL == "DESTINATION":
+            content = lineCL
         elif lineCL in questionTypes:
             content = lineCL
             if newQuestion:
                 #print(questionType, name)
-                addedQuestion = addQuestion(questionList, args, questionTypes[questionType], **{'name':name, 'text':text, 'answer':answer, 'fileList':fileList, 'correct':correct})
+                addedQuestion = addQuestion(questionList, args, questionTypes[questionType], 
+                                            **{'name':name, 
+                                               'text':text, 
+                                               'answer':answer, 
+                                               'fileList':fileList, 
+                                               'correct':correct, 
+                                               'destination':destination})
                 addedQuestion.positionInQuiz = len(questionList)
 
                 # cleaning fields for next question
@@ -113,12 +122,14 @@ def readQuestions(args):
             answer += line
         elif content == "CORRECT":
             correct += line
+        elif lineCL == "DESTINATION":
+            destination = line
         elif content == "CHEATSHEET":
             if lineCL != "":
                 text = lineCL
 
     
-    addedQuestion = addQuestion(questionList, args, questionTypes[questionType], **{'name':name, 'text':text, 'answer':answer, 'fileList':fileList, 'correct':correct})
+    addedQuestion = addQuestion(questionList, args, questionTypes[questionType], **{'name':name, 'text':text, 'answer':answer, 'fileList':fileList, 'correct':correct, 'destination':destination})
     addedQuestion.positionInQuiz = len(questionList)
 
     print('Trovate',len(questionList),'domande')

@@ -78,6 +78,7 @@ def getFileHash(filename):
 class Question(object):
       
     fileID = 6359000              # unique ID per file    
+    MoodleVersion = 2.0 #3.1
 
     def __init__(self):
         self.workDir = '.'
@@ -579,12 +580,21 @@ class Essay(Question):
         indent.write(xmlFile, "<penalty> 0 </penalty>")
         indent.write(xmlFile, "<hidden> 0 </hidden>")
 
+        if Question.MoodleVersion >= 3.0:
+            indent.write(xmlFile, "<idnumber></idnumber>")
+
         # write individual parameters
         
         answer = markdown.markdown(self.answer,  extensions = EXTENSION_LIST)
         indent.write(xmlFile, "<responseformat>editor</responseformat>")
         indent.write(xmlFile, "<responserequired>0</responserequired>")
         indent.write(xmlFile, "<responsefieldlines>15</responsefieldlines>")
+
+        
+        if Question.MoodleVersion >= 3.0:
+            indent.write(xmlFile, "<minwordlimit></minwordlimit>")
+            indent.write(xmlFile, "<maxwordlimit></maxwordlimit>")
+
         indent.write(xmlFile, "<attachments>0</attachments>")
         indent.write(xmlFile, "<attachmentsrequired>0</attachmentsrequired>")
         # grader info
@@ -592,7 +602,7 @@ class Essay(Question):
         correct = html.escape(markdown.markdown(self.correct,  extensions = EXTENSION_LIST))
 
         indent.write(xmlFile, "<graderinfo format=\"html\">")
-        indent.write(xmlFile, "<text>" + correct + "</text>")
+        indent.write(xmlFile, "<text><![CDATA[<p> " + correct + " </p>]]></text>")
         indent.write(xmlFile, "</graderinfo>")
         indent.write(xmlFile, "<responsetemplate format=\"html\">")
         indent.write(xmlFile, "<text><![CDATA[<p> " + answer + " </p>]]></text>")
@@ -714,6 +724,8 @@ class CheatSheet(Question):
         indent.write(xmlFile, '<defaultgrade>0.0000000</defaultgrade>')
         indent.write(xmlFile, '<penalty>0.0000000</penalty>')
         indent.write(xmlFile, '<hidden>0</hidden>')
+        if Question.MoodleVersion >= 3.0:
+            indent.write(xmlFile, "<idnumber></idnumber>")
         indent.dec()
         indent.write(xmlFile, '</question>')
 
@@ -785,6 +797,26 @@ class CrownLab(Question):
         self.answer = kwargs['answer']
         self.workDir = '.'
         (self.name, self.mark) = self.setMark(self.name, CrownLab.defaultMark)
+        if kwargs['destination'] != '':
+            self.destination = kwargs['destination']
+        else:
+            self.destination = "portal:"
+
+        '''
+        DESTINATION TYPES
+        null/stringa vuota: non consegnare (scarta contenuti istanza allo spegnimento)  
+        portal: carica su consegna elaborati (com'è stato finora; notare i : a fine stringa, sono necessari)
+        mdlZip: carica zip su moodle (è presente un pulsante per scaricare lo zip dal report della domanda, anche qui i : 
+        fanno parte della stringa)
+        mdlTxt:path/to/file.ext carica zip su moodle, poi renderizza il file di testo indicato prendendolo dallo zip 
+        (il pulsante di download dello zip completo sul report comunque rimane)
+        mdlPic:path/to/file.ext carica zip su moodle, poi visualizza l'immagine indicata prendendola dallo zip 
+        (anche qui, il pulsante di download dello zip completo sul report permette il download di tutto il package arrivato dal crownlabs)
+        se invece qualcuno preferisse avere la consegna su moodle in modo che il file sia visualizzato nel report, sarebbe da mettere 
+        <destination>mdlTxt:main.py</destination>
+
+        '''
+
 
         self.coderunnerId = CrownLab.ID
         CrownLab.ID += 1
@@ -856,7 +888,12 @@ class CrownLab(Question):
         zipFileContent = self.createZipFile(os.path.dirname(os.path.abspath(xmlFile.name)))
         self.createCLText()
         
-        indent.write(xmlFile, '<question type="crownlabs2">')
+        
+        if Question.MoodleVersion >= 3.0:
+            indent.write(xmlFile, '<question type="crownlabs">')
+        else:
+            indent.write(xmlFile, '<question type="crownlabs2">')
+
         indent.inc()
         indent.write(xmlFile, '<name>')
         indent.inc()
@@ -881,10 +918,23 @@ class CrownLab(Question):
         indent.write(xmlFile, '<defaultgrade>' + str(self.mark) + '</defaultgrade>')
         indent.write(xmlFile, '<penalty>0.0000000</penalty>')
         indent.write(xmlFile, '<hidden>0</hidden>')
+        
+        if Question.MoodleVersion >= 3.0:
+            indent.write(xmlFile, '<idnumber>python</idnumber>')
+
         indent.write(xmlFile, '<template>pycharm2021-persistent</template>')
 
-        indent.write(xmlFile, '<file name="exam.zip" path="/" encoding="base64">' + zipFileContent + '</file>')
+        if Question.MoodleVersion >= 3.0:
+            contentorigin = '\n<![CDATA[{"filename":"exam.zip","content":"' + zipFileContent + '"}]]>'
+            indent.write(xmlFile, '<contentorigin>' + contentorigin + '</contentorigin>')
+        else:
+            indent.write(xmlFile, '<file name="exam.zip" path="/" encoding="base64">' + zipFileContent + '</file>')
 
+        
+        if Question.MoodleVersion >= 3.0:
+            #indent.write(xmlFile, '<deliver>0</deliver>')
+            indent.write(xmlFile, f'<destination>{self.destination}</destination>')
+            
         indent.dec()
         indent.write(xmlFile, '</question>')
         
