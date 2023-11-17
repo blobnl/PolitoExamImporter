@@ -78,7 +78,7 @@ def getFileHash(filename):
 class Question(object):
       
     fileID = 6359000              # unique ID per file    
-    MoodleVersion = 2.0 #3.1
+    MoodleVersion = 3.1
 
     def __init__(self):
         self.workDir = '.'
@@ -215,7 +215,7 @@ class CodeRunner(Question):
         except:
             print("Footer file not available...")
 
-        file.write('<div class="content"><div class="formulation"><h4 class="accesshide">' + self.name + '</h4><input type="hidden" name="q1172691:1_:sequencecheck" value="1" /><div class="qtext"><p>' + text + '</p>' + footerText + '</div></div></div>')
+        file.write('<div class="content"><div class="formulation"><h4 class="accesshide">' + self.name + '</h4><input type="hidden" name="q1172691:1_:sequencecheck" value="1" /><div class="qtext"><p dir="ltr" style="text-align: left;">' + text + '</p>' + footerText + '</div></div></div>')
         #file.write('<p>' + text + '</p>' + footerText + '')
 
     def includeTemplate(self, xmlFile, indent, export = False):
@@ -269,7 +269,7 @@ class CodeRunner(Question):
 
         answer = self.getFullAnswer()
 
-        indent.write(xmlFile, '<text><![CDATA[<p>' + text + '</p>' + footerText + ']]></text>')
+        indent.write(xmlFile, '<text><![CDATA[<p dir="ltr" style="text-align: left;">' + text + '</p>' + footerText + ']]></text>')
         indent.dec()
         indent.write(xmlFile, '</questiontext>')
         indent.write(xmlFile, '<generalfeedback format="html">')
@@ -489,9 +489,9 @@ class Essay(Question):
         text = markdown.markdown(self.text,  extensions = EXTENSION_LIST)
         answer = markdown.markdown(self.answer,  extensions = EXTENSION_LIST)
         file.write('<h2>Essay text</h2>')
-        file.write('<p>' + text + '</p>')
+        file.write('<p dir="ltr" style="text-align: left;">' + text + '</p>')
         file.write('<h2>Essay answer</h2>')
-        file.write('<p>' + answer + '</p>')
+        file.write('<p dir="ltr" style="text-align: left;">' + answer + '</p>')
     
         #file.write('<div class="content"><div class="formulation"><h4 class="accesshide">Testo della domanda</h4><input type="hidden" name="q1172691:1_:sequencecheck" value="1" /><div class="qtext"><p>' + answer + '</p></div></div></div>')
     
@@ -540,6 +540,7 @@ class Essay(Question):
 
         answer = html.escape(markdown.markdown(self.answer,  extensions = EXTENSION_LIST))
 
+       
         indent.write(xmlFile, '<responsetemplate>' + answer + '</responsetemplate>')
         indent.write(xmlFile, '<responsetemplateformat>1</responsetemplateformat>')
         indent.dec()
@@ -569,7 +570,7 @@ class Essay(Question):
         # text
         text = markdown.markdown(self.text,  extensions = EXTENSION_LIST)
         indent.write(xmlFile, "<questiontext format = \"html\">")
-        indent.write(xmlFile, "<text><![CDATA[<p>" + text + "</p>]]></text>")
+        indent.write(xmlFile, '<text><![CDATA[<p dir="ltr" style="text-align: left;">' + text + '</p>]]></text>')
         indent.write(xmlFile, "</questiontext>");
         indent.write(xmlFile, "<generalfeedback format = \"html\">")
         indent.write(xmlFile, "<text></text>");
@@ -602,10 +603,15 @@ class Essay(Question):
         correct = html.escape(markdown.markdown(self.correct,  extensions = EXTENSION_LIST))
 
         indent.write(xmlFile, "<graderinfo format=\"html\">")
-        indent.write(xmlFile, "<text><![CDATA[<p> " + correct + " </p>]]></text>")
+        indent.write(xmlFile, '<text><![CDATA[<p dir="ltr" style="text-align: left;"> ' + correct + ' </p>]]></text>')
         indent.write(xmlFile, "</graderinfo>")
         indent.write(xmlFile, "<responsetemplate format=\"html\">")
-        indent.write(xmlFile, "<text><![CDATA[<p> " + answer + " </p>]]></text>")
+
+        if Question.MoodleVersion >= 3.0:
+            answer = answer.replace('<p>','<br>').replace('</p>', '')
+
+
+        indent.write(xmlFile, '<text><![CDATA[' + answer + ']]></text>')
         indent.write(xmlFile, "</responsetemplate>")
 
         # close
@@ -630,16 +636,16 @@ class CheatSheet(Question):
         if not self.english:
             self.NORMAL = 'CS.pdf'
             self.ACCESSIBLE = 'CSA.pdf'
-            self.text = ('<p><b>Documentazione online di Python</b> (<a href="https://docs.python.org/3/" target="_blank">python.org</a>)</p>'
-                '<p><b>CheatSheet </b><a href="@@PLUGINFILE@@/' + self.NORMAL + '" target="_blank">PDF</a></p>'
-                '<p><b>CheatSheet (versione accessibile)</b> <a href="@@PLUGINFILE@@/' + self.ACCESSIBLE + '" target="_blank">PDF</a><br></p>')
+            self.text = ('<p dir="ltr" style="text-align: left;"><b>Documentazione online di Python</b> (<a href="https://docs.python.org/3/" target="_blank">python.org</a>)</p>'
+                '<p dir="ltr" style="text-align: left;"><b>CheatSheet </b><a href="@@PLUGINFILE@@/' + self.NORMAL + '" target="_blank">PDF</a></p>'
+                '<p dir="ltr" style="text-align: left;"><b>CheatSheet (versione accessibile)</b> <a href="@@PLUGINFILE@@/' + self.ACCESSIBLE + '" target="_blank">PDF</a><br></p>')
         else:
             self.NORMAL = 'CSeng.pdf'
             self.ACCESSIBLE = 'CSAeng.pdf'
         
-            self.text = ('<p><b>Online Python documentation</b> (<a href="https://docs.python.org/3/" target="_blank">python.org</a>)</p>'
-                '<p><b>CheatSheet </b><a href="@@PLUGINFILE@@/' + self.NORMAL + '" target="_blank">PDF</a></p>'
-                '<p><b>CheatSheet (accessible version)</b> <a href="@@PLUGINFILE@@/' + self.ACCESSIBLE + '" target="_blank">PDF</a><br></p>')
+            self.text = ('<p dir="ltr" style="text-align: left;"><b>Online Python documentation</b> (<a href="https://docs.python.org/3/" target="_blank">python.org</a>)</p>'
+                '<p dir="ltr" style="text-align: left;"><b>CheatSheet </b><a href="@@PLUGINFILE@@/' + self.NORMAL + '" target="_blank">PDF</a></p>'
+                '<p dir="ltr" style="text-align: left;"><b>CheatSheet (accessible version)</b> <a href="@@PLUGINFILE@@/' + self.ACCESSIBLE + '" target="_blank">PDF</a><br></p>')
         
 
     # fro the html control file
@@ -889,10 +895,7 @@ class CrownLab(Question):
         self.createCLText()
         
         
-        if Question.MoodleVersion >= 3.0:
-            indent.write(xmlFile, '<question type="crownlabs">')
-        else:
-            indent.write(xmlFile, '<question type="crownlabs2">')
+        indent.write(xmlFile, '<question type="crownlabs">')
 
         indent.inc()
         indent.write(xmlFile, '<name>')
@@ -922,7 +925,10 @@ class CrownLab(Question):
         if Question.MoodleVersion >= 3.0:
             indent.write(xmlFile, '<idnumber>python</idnumber>')
 
-        indent.write(xmlFile, '<template>pycharm2021-persistent</template>')
+        if Question.MoodleVersion >= 3.0:
+            indent.write(xmlFile, '<template>vscode-py-noexts</template>')
+        else:
+            indent.write(xmlFile, '<template>pycharm2021-persistent</template>')
 
         if Question.MoodleVersion >= 3.0:
             contentorigin = '\n<![CDATA[{"filename":"exam.zip","content":"' + zipFileContent + '"}]]>'
