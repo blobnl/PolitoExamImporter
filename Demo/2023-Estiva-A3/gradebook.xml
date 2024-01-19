@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gradebook><grade_categories><grade_category id="852"><parent>$@NULL@$</parent><depth>1</depth><path>/852/</path><fullname>?</fullname><aggregation>11</aggregation><keephigh>0</keephigh><droplow>0</droplow><aggregateonlygraded>1</aggregateonlygraded><aggregateoutcomes>0</aggregateoutcomes><timecreated>1705670247</timecreated><timemodified>1705670247</timemodified><hidden>0</hidden></grade_category></grade_categories><grade_items>		<question_category><id>7500</id></question_category>
+		<question_category><id>7501</id></question_category>
+</grade_items><grade_letters></grade_letters><grade_settings></grade_settings></gradebook>

@@ -94,7 +94,7 @@ class Question(object):
         if idx == -1:
             return (str, default)
     
-        mark = str[idx + len(sign):].strip()
+        mark = str[idx + len(sign):].split(maxsplit = 1)[0].strip()
     
         try:
             return (str[:idx].strip(), float(mark))
@@ -571,9 +571,9 @@ class Essay(Question):
         text = markdown.markdown(self.text,  extensions = EXTENSION_LIST)
         indent.write(xmlFile, "<questiontext format = \"html\">")
         indent.write(xmlFile, '<text><![CDATA[<p dir="ltr" style="text-align: left;">' + text + '</p>]]></text>')
-        indent.write(xmlFile, "</questiontext>");
+        indent.write(xmlFile, "</questiontext>")
         indent.write(xmlFile, "<generalfeedback format = \"html\">")
-        indent.write(xmlFile, "<text></text>");
+        indent.write(xmlFile, "<text></text>")
         indent.write(xmlFile, "</generalfeedback>")
 
         # parameters
@@ -616,7 +616,7 @@ class Essay(Question):
 
         # close
         indent.dec()
-        indent.write(xmlFile, "</question>");
+        indent.write(xmlFile, "</question>")
 
 
 class CheatSheet(Question):
@@ -763,18 +763,88 @@ class CheatSheet(Question):
             self.writeFile(file, indent, fileHash, fileName, fileSize, 'application/pdf', component = 'question', filearea = 'questiontext')
 
 class MultiChoice(Question):
-
-    def __init__(self, name, text, answer, questions):
+    
+    ID = 2500 # what for???
+    defaultMark = 3.0
+    correctFraction = "100"
+    wrongFraction = "-33.33333"
+    
+    
+    def __init__(self, **kwargs):
         super(MultiChoice, self).__init__()
 
-        self.questions = questions
-        self.text = text
-        self.name = name
-        self.answer = answer
+        self.text = kwargs['text']
+        name = kwargs['name']
+        self.answer = self.processAnswers(kwargs['answer'])
+        (self.name, self.mark) = self.setMark(name, MultiChoice.defaultMark)
+        (self.correctFraction, self.wrongFraction) = self.setFractions(name)
 
+
+
+    def setFractions(self, name):
+        default = (MultiChoice.correctFraction, MultiChoice.wrongFraction)
+        sign = '@f'
+        name = name.lower()
+        idx = name.rfind(sign)
+    
+        if idx == -1:
+            return default
+    
+        text = name[idx + len(sign):].split(maxsplit = 1)[0].strip()
+        (correct, wrong) = text.split(':')
+    
+        try:
+            return (correct, wrong)
+        except Exception as e:
+            print(e)
+            return default
+
+    def processAnswers(self, data):
+        answers = data.split('\n')
+        choiches = []
+        # correct, text
+        lut = [False, True]
+        for answer in answers:
+            if answer == '':
+                continue
+            
+            (correct, text) = answer.split(' ', 1)
+            choiches.append((lut[int(correct)], text.strip()))
+          
+        return choiches
+
+
+    def markdownTuplesToHtml(self, tuples):
+        """
+        Converts a list of tuples containing a boolean and markdown text into an HTML string.
+        Each tuple is transformed into an item of an itemized list with different bullets based on the boolean value.
+        """
+        html_list = "<ul>\n"
+
+        for boolean, markdown_text in tuples:
+            # Convert markdown to HTML
+            html_text = markdown.markdown(markdown_text,  extensions = EXTENSION_LIST)
+
+            # Choose bullet style based on boolean value
+            bullet = "*" if boolean else "o"
+
+            # Create list item
+            html_list += f"  <li><span>{bullet}</span> {html_text}</li>\n"
+
+        html_list += "</ul>"
+
+        return html_list
 
     # fro the html control file
     def writeHtml(self, file, args):
+        
+        text = markdown.markdown(self.text,  extensions = EXTENSION_LIST)
+        answer = self.markdownTuplesToHtml(self.answer)
+        file.write('<h2>Multichoice text</h2>')
+        file.write('<p dir="ltr" style="text-align: left;">' + text + '</p>')
+        file.write('<h2>Multichoice answer</h2>')
+        file.write('<p dir="ltr" style="text-align: left;">' + answer + '</p>')
+    
         pass
 
     # for creating backup file
@@ -783,7 +853,69 @@ class MultiChoice(Question):
 
     # for moodle XML import file
     def writeQuestion(self, xmlFile, indent, args):
-        pass
+        print("Saving multichoice:", self.name)
+
+        # header
+        indent.write(xmlFile, "<question type=\"multichoice\">")
+        indent.inc()
+        indent.write(xmlFile, "<name>")
+        indent.inc()
+        indent.write(xmlFile, "<text> " + f"{self.positionInQuiz:02d} {self.name}" + " </text>")
+        indent.dec()
+        indent.write(xmlFile, "</name>")
+
+        # text
+        text = markdown.markdown(self.text,  extensions = EXTENSION_LIST)
+        indent.write(xmlFile, "<questiontext format = \"html\">")
+        indent.write(xmlFile, '<text><![CDATA[<p dir="ltr" style="text-align: left;">' + text + '</p>]]></text>')
+        indent.write(xmlFile, "</questiontext>")
+        indent.write(xmlFile, "<generalfeedback format = \"html\">")
+        indent.write(xmlFile, "<text></text>")
+        indent.write(xmlFile, "</generalfeedback>")
+
+        # parameters
+        indent.write(xmlFile, "<defaultgrade> " + str(self.mark) + " </defaultgrade>")
+        indent.write(xmlFile, "<penalty> 0 </penalty>")
+        indent.write(xmlFile, "<hidden> 0 </hidden>")
+
+        if Question.MoodleVersion >= 3.0:
+            indent.write(xmlFile, "<idnumber></idnumber>")
+
+        # write individual parameters
+        
+        
+        indent.write(xmlFile, "<single>true</single>")
+        indent.write(xmlFile, "<shuffleanswers>true</shuffleanswers>")
+        indent.write(xmlFile, "<answernumbering>abc</answernumbering>")
+
+        
+        # trail
+
+        indent.write(xmlFile, "<correctfeedback format=\"html\">")
+        indent.write(xmlFile, "<text>Risposta corretta.</text>")
+        indent.write(xmlFile, "</correctfeedback>")
+        indent.write(xmlFile, "<partiallycorrectfeedback format = \"html\">")
+        indent.write(xmlFile, "<text>Risposta parzialmente esatta.</text>")
+        indent.write(xmlFile, "</partiallycorrectfeedback>")
+        indent.write(xmlFile, "<incorrectfeedback format = \"html\">")
+        indent.write(xmlFile, "<text>Risposta errata.</text>")
+        indent.write(xmlFile, "</incorrectfeedback>")
+        indent.write(xmlFile, "<shownumcorrect/>")
+        
+        for (value, choice) in self.answer:
+            fraction = self.correctFraction if value else self.wrongFraction
+            choice = markdown.markdown(choice,  extensions = EXTENSION_LIST)
+            indent.write(xmlFile, "<answer fraction=\"" + str(fraction) + "\" format =\"html\">")
+            indent.write(xmlFile, "<text><![CDATA[<p> " + choice + " </p>]]></text>")
+            indent.write(xmlFile, "<feedback format=\"html\">")
+            indent.write(xmlFile, "<text></text>")
+            indent.write(xmlFile, "</feedback>")
+            indent.write(xmlFile, "</answer>")
+
+
+        # close
+        indent.dec()
+        indent.write(xmlFile, "</question>")
         
     def writeExportFiles(self, file, args, root):
         pass

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<question_categories>
+	<question_category id="1000">
+		<name>2023-Estiva-A3</name>
+		<contextid>542952</contextid>
+		<contextlevel>50</contextlevel>
+		<contextinstanceid>1053</contextinstanceid>
+		<info></info>
+		<infoformat>0</infoformat>
+		<stamp>exam.polito.it+210210103259+FoLZQU</stamp>
+		<parent>0</parent>
+		<sortorder>0</sortorder>
+		<questions>
+		</questions>
+	</question_category>
+	<question_category id="1001">
+		<name>Test</name>
+		<contextid>542952</contextid>
+		<contextlevel>50</contextlevel>
+		<contextinstanceid>1053</contextinstanceid>
+		<info></info>
+		<infoformat>1</infoformat>
+		<stamp>exam.polito.it+210210103259+FoLZQU</stamp>
+		<parent>1000</parent>
+		<sortorder>0</sortorder>
+		<questions>
+			<question id="10002">
+				<parent>0</parent>
+				<name>trasformazione basi</name>
+				<questiontext>&lt;p&gt;Dato il numero 21 in base 10 riportarne la sua codifica in binario, ottale ed esadecimale&lt;/p&gt;</questiontext>
+				<questiontextformat>1</questiontextformat>
+				<generalfeedback></generalfeedback>
+				<generalfeedbackformat>1</generalfeedbackformat>
+				<defaultmark>2.0</defaultmark>
+				<penalty>0.0000000</penalty>
+				<qtype>essay</qtype>
+				<length>1</length>
+				<stamp>exam.polito.it+210211091420+03bWrP</stamp>
+				<version>exam.polito.it+210211091420+S5vzv2</version>
+				<hidden>0</hidden>
+				<timecreated>1705670247</timecreated>
+				<timemodified>1705670247</timemodified>
+				<createdby>374443</createdby>
+				<modifiedby>374443</modifiedby>
+				<plugin_qtype_essay_question>
+					<essay id="1500">
+						<responseformat>editor</responseformat>
+						<responserequired>0</responserequired>
+						<responsefieldlines>15</responsefieldlines>
+						<attachments>0</attachments>
+						<attachmentsrequired>0</attachmentsrequired>
+						<graderinfo></graderinfo>
+						<graderinfoformat>1</graderinfoformat>
+						<responsetemplate>&lt;p&gt;Risposte:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;base 2)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;base 8)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;base 16)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</responsetemplate>
+						<responsetemplateformat>1</responsetemplateformat>
+					</essay>
+				</plugin_qtype_essay_question>
+				<question_hints>
+				</question_hints>
+				<tags>
+				</tags>
+			</question>
+		</questions>
+	</question_category>
+</question_categories>

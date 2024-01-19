@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<course_completion>
+<course_completion>
+</course_completion><files>
+</files><gradebook><grade_categories><grade_category id="852"><parent>$@NULL@$</parent><depth>1</depth><path>/852/</path><fullname>?</fullname><aggregation>11</aggregation><keephigh>0</keephigh><droplow>0</droplow><aggregateonlygraded>1</aggregateonlygraded><aggregateoutcomes>0</aggregateoutcomes><timecreated>1705670247</timecreated><timemodified>1705670247</timemodified><hidden>0</hidden></grade_category></grade_categories><grade_items>		<question_category><id>7500</id></question_category>
+		<question_category><id>7501</id></question_category>
+</grade_items><grade_letters></grade_letters><grade_settings></grade_settings></gradebook>
+<grade_history>
+<grade_grades>
+</grade_grades>
+</grade_history><groups>
+	<groupings>
+	</groupings>
+</groups><moodle_backup>
+	<information>
+		<name>2023-Estiva-A3.mbz</name>
+		<moodle_version>2015051100.04</moodle_version>
+		<moodle_release>2.9+ (Build: 20150604)</moodle_release>
+		<backup_version>2015051100</backup_version>
+		<backup_release>2.9</backup_release>
+		<backup_date>1613144889</backup_date>
+		<mnet_remoteusers>0</mnet_remoteusers>
+		<include_files>1</include_files>
+		<include_file_references_to_external_content>0</include_file_references_to_external_content>
+		<original_wwwroot>https://exam.polito.it</original_wwwroot>
+		<original_site_identifier_hash>cab50d79c086152fbba76d2abfa65a17</original_site_identifier_hash>
+		<original_course_id>1000</original_course_id>
+		<original_course_format>topics</original_course_format>
+		<original_course_fullname>Automatic Importer</original_course_fullname>
+		<original_course_shortname>XXYY_Importer</original_course_shortname>
+		<original_course_startdate>0</original_course_startdate>
+		<original_course_contextid>542952</original_course_contextid>
+		<original_system_contextid>1</original_system_contextid>
+		<details>
+			<detail backup_id="433d8cf111a71cd9f1276e022ab6d481">
+				<type>course</type>
+				<format>moodle2</format>
+				<interactive>1</interactive>
+				<mode>10</mode>
+				<execution>1</execution>
+				<executiontime>0</executiontime>
+			</detail>
+		</details>
+		<contents>
+			<activities>
+				<activity>
+					<moduleid>7501</moduleid>
+					<sectionid>1474</sectionid>
+					<modulename>quiz</modulename>
+					<title>Test</title>
+					<directory>activities/quiz_7501</directory>
+				</activity>
+			</activities>
+			<sections>
+				<section>
+					<sectionid>1474</sectionid>
+					<title>0</title>
+					<directory>sections/section_1474</directory>
+				</section>
+			</sections>
+			<course>
+				<courseid>1053</courseid>
+				<title>XXYY_Importer</title>
+				<directory>course</directory>
+			</course>
+		</contents>
+		<settings>
+			<setting>
+				<level>root</level>
+				<name>users</name>
+				<value>0</value>
+			</setting>
+			<setting>
+				<level>root</level>
+				<name>anonymize</name>
+				<value>0</value>
+			</setting>
+			<setting>
+				<level>root</level>
+				<name>role_assignments</name>
+				<value>0</value>
+			</setting>
+			<setting>
+				<level>root</level>
+				<name>activities</name>
+				<value>1</value>
+			</setting>
+			<setting>
+				<level>root</level>
+				<name>blocks</name>
+				<value>0</value>
+			</setting>
+			<setting>
+				<level>root</level>
+				<name>filters</name>
+				<value>0</value>
+			</setting>
+			<setting>
+				<level>root</level>
+				<name>comments</name>
+				<value>0</value>
+			</setting>
+			<setting>
+				<level>root</level>
+				<name>badges</name>
+				<value>0</value>
+			</setting>
+			<setting>
+				<level>root</level>
+				<name>calendarevents</name>
+				<value>0</value>
+			</setting>
+			<setting>
+				<level>root</level>
+				<name>userscompletion</name>
+				<value>0</value>
+			</setting>
+			<setting>
+				<level>root</level>
+				<name>logs</name>
+				<value>0</value>
+			</setting>
+			<setting>
+				<level>root</level>
+				<name>grade_histories</name>
+				<value>0</value>
+			</setting>
+			<setting>
+				<level>root</level>
+				<name>questionbank</name>
+				<value>1</value>
+			</setting>
+			<setting>
+				<level>root</level>
+				<name>groups</name>
+				<value>0</value>
+			</setting>
+			<setting>
+				<level>section</level>
+				<section>section_1474</section>
+				<name>section_1474_included</name>
+				<value>1</value>
+			</setting>
+			<setting>
+				<level>section</level>
+				<section>section_1474</section>
+				<name>section_1474_userinfo</name>
+				<value>0</value>
+			</setting>
+			<setting>
+				<level>activity</level>
+				<activity>quiz_7500</activity>
+				<name>quiz_7500_included</name>
+				<value>1</value>
+			</setting>
+			<setting>
+				<level>activity</level>
+				<activity>quiz_7500</activity>
+				<name>quiz_7500_userinfo</name>
+				<value>0</value>
+			</setting>
+			<setting>
+				<level>activity</level>
+				<activity>quiz_7501</activity>
+				<name>quiz_7501_included</name>
+				<value>1</value>
+			</setting>
+			<setting>
+				<level>activity</level>
+				<activity>quiz_7501</activity>
+				<name>quiz_7501_userinfo</name>
+				<value>0</value>
+			</setting>
+		</settings>
+	</information>
+</moodle_backup>
+<outcomes_definition>
+</outcomes_definition><question_categories>
+	<question_category id="1000">
+		<name>2023-Estiva-A3</name>
+		<contextid>542952</contextid>
+		<contextlevel>50</contextlevel>
+		<contextinstanceid>1053</contextinstanceid>
+		<info></info>
+		<infoformat>0</infoformat>
+		<stamp>exam.polito.it+210210103259+FoLZQU</stamp>
+		<parent>0</parent>
+		<sortorder>0</sortorder>
+		<questions>
+		</questions>
+	</question_category>
+	<question_category id="1001">
+		<name>Test</name>
+		<contextid>542952</contextid>
+		<contextlevel>50</contextlevel>
+		<contextinstanceid>1053</contextinstanceid>
+		<info></info>
+		<infoformat>1</infoformat>
+		<stamp>exam.polito.it+210210103259+FoLZQU</stamp>
+		<parent>1000</parent>
+		<sortorder>0</sortorder>
+		<questions>
+			<question id="10002">
+				<parent>0</parent>
+				<name>trasformazione basi</name>
+				<questiontext>&lt;p&gt;Dato il numero 21 in base 10 riportarne la sua codifica in binario, ottale ed esadecimale&lt;/p&gt;</questiontext>
+				<questiontextformat>1</questiontextformat>
+				<generalfeedback></generalfeedback>
+				<generalfeedbackformat>1</generalfeedbackformat>
+				<defaultmark>2.0</defaultmark>
+				<penalty>0.0000000</penalty>
+				<qtype>essay</qtype>
+				<length>1</length>
+				<stamp>exam.polito.it+210211091420+03bWrP</stamp>
+				<version>exam.polito.it+210211091420+S5vzv2</version>
+				<hidden>0</hidden>
+				<timecreated>1705670247</timecreated>
+				<timemodified>1705670247</timemodified>
+				<createdby>374443</createdby>
+				<modifiedby>374443</modifiedby>
+				<plugin_qtype_essay_question>
+					<essay id="1500">
+						<responseformat>editor</responseformat>
+						<responserequired>0</responserequired>
+						<responsefieldlines>15</responsefieldlines>
+						<attachments>0</attachments>
+						<attachmentsrequired>0</attachmentsrequired>
+						<graderinfo></graderinfo>
+						<graderinfoformat>1</graderinfoformat>
+						<responsetemplate>&lt;p&gt;Risposte:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;base 2)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;base 8)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;base 16)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</responsetemplate>
+						<responsetemplateformat>1</responsetemplateformat>
+					</essay>
+				</plugin_qtype_essay_question>
+				<question_hints>
+				</question_hints>
+				<tags>
+				</tags>
+			</question>
+		</questions>
+	</question_category>
+</question_categories><roles_definition>
+</roles_definition><scales_definition>
+</scales_definition><question type = "category">
+	<category>
+		<text>2023-Estiva-A3\Test</text>
+	</category>
+</question>
+	<question type="multichoice">
+		<name>
+			<text> 01 ar </text>
+		</name>
+		<questiontext format = "html">
+		<text><![CDATA[<p dir="ltr" style="text-align: left;"><p>La caratteristica principale del paradigma di spatial AR è che:</p></p>]]></text>
+		</questiontext>
+		<generalfeedback format = "html">
+		<text></text>
+		</generalfeedback>
+		<defaultgrade> 2.0 </defaultgrade>
+		<penalty> 0 </penalty>
+		<hidden> 0 </hidden>
+		<idnumber></idnumber>
+		<single>true</single>
+		<shuffleanswers>true</shuffleanswers>
+		<answernumbering>abc</answernumbering>
+		<correctfeedback format="html">
+		<text>Risposta corretta.</text>
+		</correctfeedback>
+		<partiallycorrectfeedback format = "html">
+		<text>Risposta parzialmente esatta.</text>
+		</partiallycorrectfeedback>
+		<incorrectfeedback format = "html">
+		<text>Risposta errata.</text>
+		</incorrectfeedback>
+		<shownumcorrect/>
+		<answer fraction="100.0" format ="html">
+		<text><![CDATA[<p> <p>usa dei proiettori (che proiettano le loro immagini su superifici e oggetti nel mondo reale) per creare gli oggetti virtuali</p> </p>]]></text>
+		<feedback format="html">
+		<text></text>
+		</feedback>
+		</answer>
+		<answer fraction="-33.33333" format ="html">
+		<text><![CDATA[<p> <p>permette agli utenti di muoversi liberamente nello spazio aumentato</p> </p>]]></text>
+		<feedback format="html">
+		<text></text>
+		</feedback>
+		</answer>
+		<answer fraction="-33.33333" format ="html">
+		<text><![CDATA[<p> <p>permette di tracciare il movimento degli oggetti reali per usarlo come input nell'applicazione AR</p> </p>]]></text>
+		<feedback format="html">
+		<text></text>
+		</feedback>
+		</answer>
+	</question>
+	<question type="multichoice">
+		<name>
+			<text> 02 3dui </text>
+		</name>
+		<questiontext format = "html">
+		<text><![CDATA[<p dir="ltr" style="text-align: left;"><p>La metafora di interazione HOMER</p></p>]]></text>
+		</questiontext>
+		<generalfeedback format = "html">
+		<text></text>
+		</generalfeedback>
+		<defaultgrade> 6.0 </defaultgrade>
+		<penalty> 0 </penalty>
+		<hidden> 0 </hidden>
+		<idnumber></idnumber>
+		<single>true</single>
+		<shuffleanswers>true</shuffleanswers>
+		<answernumbering>abc</answernumbering>
+		<correctfeedback format="html">
+		<text>Risposta corretta.</text>
+		</correctfeedback>
+		<partiallycorrectfeedback format = "html">
+		<text>Risposta parzialmente esatta.</text>
+		</partiallycorrectfeedback>
+		<incorrectfeedback format = "html">
+		<text>Risposta errata.</text>
+		</incorrectfeedback>
+		<shownumcorrect/>
+		<answer fraction="-10.0" format ="html">
+		<text><![CDATA[<p> <p>usa una mano virtuale per l’interazione con gli oggetti virtuali consentendone un allungamento per raggiungere oggetti distanti</p> </p>]]></text>
+		<feedback format="html">
+		<text></text>
+		</feedback>
+		</answer>
+		<answer fraction="100.0" format ="html">
+		<text><![CDATA[<p> <p>per permettere la manipolazione semplice di oggetti distanti permette di portarsi nelle loro vicinanze una volta che questi sono stati selezionati</p> </p>]]></text>
+		<feedback format="html">
+		<text></text>
+		</feedback>
+		</answer>
+		<answer fraction="-10.0" format ="html">
+		<text><![CDATA[<p> <p>usa un raggio virtuale che viene proiettato nell’ambiente virtuale per la selezione e manipolazione di oggetti virtuali</p> </p>]]></text>
+		<feedback format="html">
+		<text></text>
+		</feedback>
+		</answer>
+	</question>
+	<question type="essay">
+		<name>
+			<text> 03 trasformazione basi </text>
+		</name>
+		<questiontext format = "html">
+		<text><![CDATA[<p dir="ltr" style="text-align: left;"><p>Dato il numero 21 in base 10 riportarne la sua codifica in binario, ottale ed esadecimale</p></p>]]></text>
+		</questiontext>
+		<generalfeedback format = "html">
+		<text></text>
+		</generalfeedback>
+		<defaultgrade> 2.0 </defaultgrade>
+		<penalty> 0 </penalty>
+		<hidden> 0 </hidden>
+		<idnumber></idnumber>
+		<responseformat>editor</responseformat>
+		<responserequired>0</responserequired>
+		<responsefieldlines>15</responsefieldlines>
+		<minwordlimit></minwordlimit>
+		<maxwordlimit></maxwordlimit>
+		<attachments>0</attachments>
+		<attachmentsrequired>0</attachmentsrequired>
+		<graderinfo format="html">
+		<text><![CDATA[<p dir="ltr" style="text-align: left;">  </p>]]></text>
+		</graderinfo>
+		<responsetemplate format="html">
+		<text><![CDATA[<br>Risposte:
+<ul>
+<li>
+<br>base 2)
+</li>
+<li>
+<br>base 8)
+</li>
+<li>
+<br>base 16)
+</li>
+</ul>]]></text>
+		</responsetemplate>
+	</question>
+</quiz>

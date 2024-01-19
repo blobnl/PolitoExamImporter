@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<question type = "category">
+	<category>
+		<text>2023-Estiva-A3\Test</text>
+	</category>
+</question>
+	<question type="multichoice">
+		<name>
+			<text> 01 ar </text>
+		</name>
+		<questiontext format = "html">
+		<text><![CDATA[<p dir="ltr" style="text-align: left;"><p>La caratteristica principale del paradigma di spatial AR è che:</p></p>]]></text>
+		</questiontext>
+		<generalfeedback format = "html">
+		<text></text>
+		</generalfeedback>
+		<defaultgrade> 2.0 </defaultgrade>
+		<penalty> 0 </penalty>
+		<hidden> 0 </hidden>
+		<idnumber></idnumber>
+		<single>true</single>
+		<shuffleanswers>true</shuffleanswers>
+		<answernumbering>abc</answernumbering>
+		<correctfeedback format="html">
+		<text>Risposta corretta.</text>
+		</correctfeedback>
+		<partiallycorrectfeedback format = "html">
+		<text>Risposta parzialmente esatta.</text>
+		</partiallycorrectfeedback>
+		<incorrectfeedback format = "html">
+		<text>Risposta errata.</text>
+		</incorrectfeedback>
+		<shownumcorrect/>
+		<answer fraction="100.0" format ="html">
+		<text><![CDATA[<p> <p>usa dei proiettori (che proiettano le loro immagini su superifici e oggetti nel mondo reale) per creare gli oggetti virtuali</p> </p>]]></text>
+		<feedback format="html">
+		<text></text>
+		</feedback>
+		</answer>
+		<answer fraction="-33.33333" format ="html">
+		<text><![CDATA[<p> <p>permette agli utenti di muoversi liberamente nello spazio aumentato</p> </p>]]></text>
+		<feedback format="html">
+		<text></text>
+		</feedback>
+		</answer>
+		<answer fraction="-33.33333" format ="html">
+		<text><![CDATA[<p> <p>permette di tracciare il movimento degli oggetti reali per usarlo come input nell'applicazione AR</p> </p>]]></text>
+		<feedback format="html">
+		<text></text>
+		</feedback>
+		</answer>
+	</question>
+	<question type="multichoice">
+		<name>
+			<text> 02 3dui </text>
+		</name>
+		<questiontext format = "html">
+		<text><![CDATA[<p dir="ltr" style="text-align: left;"><p>La metafora di interazione HOMER</p></p>]]></text>
+		</questiontext>
+		<generalfeedback format = "html">
+		<text></text>
+		</generalfeedback>
+		<defaultgrade> 6.0 </defaultgrade>
+		<penalty> 0 </penalty>
+		<hidden> 0 </hidden>
+		<idnumber></idnumber>
+		<single>true</single>
+		<shuffleanswers>true</shuffleanswers>
+		<answernumbering>abc</answernumbering>
+		<correctfeedback format="html">
+		<text>Risposta corretta.</text>
+		</correctfeedback>
+		<partiallycorrectfeedback format = "html">
+		<text>Risposta parzialmente esatta.</text>
+		</partiallycorrectfeedback>
+		<incorrectfeedback format = "html">
+		<text>Risposta errata.</text>
+		</incorrectfeedback>
+		<shownumcorrect/>
+		<answer fraction="-10.0" format ="html">
+		<text><![CDATA[<p> <p>usa una mano virtuale per l’interazione con gli oggetti virtuali consentendone un allungamento per raggiungere oggetti distanti</p> </p>]]></text>
+		<feedback format="html">
+		<text></text>
+		</feedback>
+		</answer>
+		<answer fraction="100.0" format ="html">
+		<text><![CDATA[<p> <p>per permettere la manipolazione semplice di oggetti distanti permette di portarsi nelle loro vicinanze una volta che questi sono stati selezionati</p> </p>]]></text>
+		<feedback format="html">
+		<text></text>
+		</feedback>
+		</answer>
+		<answer fraction="-10.0" format ="html">
+		<text><![CDATA[<p> <p>usa un raggio virtuale che viene proiettato nell’ambiente virtuale per la selezione e manipolazione di oggetti virtuali</p> </p>]]></text>
+		<feedback format="html">
+		<text></text>
+		</feedback>
+		</answer>
+	</question>
+	<question type="essay">
+		<name>
+			<text> 03 trasformazione basi </text>
+		</name>
+		<questiontext format = "html">
+		<text><![CDATA[<p dir="ltr" style="text-align: left;"><p>Dato il numero 21 in base 10 riportarne la sua codifica in binario, ottale ed esadecimale</p></p>]]></text>
+		</questiontext>
+		<generalfeedback format = "html">
+		<text></text>
+		</generalfeedback>
+		<defaultgrade> 2.0 </defaultgrade>
+		<penalty> 0 </penalty>
+		<hidden> 0 </hidden>
+		<idnumber></idnumber>
+		<responseformat>editor</responseformat>
+		<responserequired>0</responserequired>
+		<responsefieldlines>15</responsefieldlines>
+		<minwordlimit></minwordlimit>
+		<maxwordlimit></maxwordlimit>
+		<attachments>0</attachments>
+		<attachmentsrequired>0</attachmentsrequired>
+		<graderinfo format="html">
+		<text><![CDATA[<p dir="ltr" style="text-align: left;">  </p>]]></text>
+		</graderinfo>
+		<responsetemplate format="html">
+		<text><![CDATA[<br>Risposte:
+<ul>
+<li>
+<br>base 2)
+</li>
+<li>
+<br>base 8)
+</li>
+<li>
+<br>base 16)
+</li>
+</ul>]]></text>
+		</responsetemplate>
+	</question>
+</quiz>

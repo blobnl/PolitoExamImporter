@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<course id="1053" contextid="542952">
+	<shortname>XXYY_Importer</shortname>
+	<fullname>Automatic Importer</fullname>
+	<idnumber></idnumber>
+	<summary>$@NULL@$</summary>
+	<summaryformat>1</summaryformat>
+	<format>topics</format>
+	<showgrades>0</showgrades>
+	<newsitems>0</newsitems>
+	<startdate>0</startdate>
+	<marker>0</marker>
+	<maxbytes>0</maxbytes>
+	<legacyfiles>0</legacyfiles>
+	<showreports>0</showreports>
+	<visible>1</visible>
+	<groupmode>0</groupmode>
+	<groupmodeforce>0</groupmodeforce>
+	<defaultgroupingid>0</defaultgroupingid>
+	<lang></lang>
+	<theme></theme>
+	<timecreated>1705670247</timecreated>
+	<timemodified>1705670247</timemodified>
+	<requested>0</requested>
+	<enablecompletion>0</enablecompletion>
+	<completionnotify>0</completionnotify>
+	<numsections>0</numsections>
+	<hiddensections>1</hiddensections>
+	<coursedisplay>0</coursedisplay>
+	<category id="12">
+		<name>TEST270</name>
+		<description></description>
+	</category>
+	<tags>
+	</tags>
+</course>

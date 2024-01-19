@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<activity id="6801" moduleid="7501" modulename="quiz" contextid="542952">
+	<quiz id="6801">
+		<name>Test</name>
+		<intro>&lt;p&gt;&lt;b&gt;&lt;i&gt;Esame di Informatica&amp;nbsp; (Python)&lt;/i&gt;&lt;/b&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Potete rispondere alle domande in un ordine qualsiasi (e tornare indietro e modificare le risposte). Ricordo che se anche ci fossero problemi con il server che gestisce la compilazione python, il codice scritto nella casella di testo viene salvato correttamente all'interno della risposta. In caso di problemi, potete quindi continuare a scrivere il codice (e provare a ricompilare in un momento successivo). Ricordo che il funzionamento corretto del compito NON è un requisito essenziale per la valutazione dello stesso&lt;/p&gt;</intro>
+		<introformat>1</introformat>
+		<timeopen>0</timeopen>
+		<timeclose>0</timeclose>
+		<timelimit>0</timelimit>
+		<overduehandling>autosubmit</overduehandling>
+		<graceperiod>0</graceperiod>
+		<preferredbehaviour>interactive</preferredbehaviour>
+		<canredoquestions>0</canredoquestions>
+		<attempts_number>1</attempts_number>
+		<attemptonlast>0</attemptonlast>
+		<grademethod>1</grademethod>
+		<decimalpoints>2</decimalpoints>
+		<questiondecimalpoints>-1</questiondecimalpoints>
+		<reviewattempt>69904</reviewattempt>
+		<reviewcorrectness>69904</reviewcorrectness>
+		<reviewmarks>69904</reviewmarks>
+		<reviewspecificfeedback>69904</reviewspecificfeedback>
+		<reviewgeneralfeedback>69904</reviewgeneralfeedback>
+		<reviewrightanswer>69904</reviewrightanswer>
+		<reviewoverallfeedback>4368</reviewoverallfeedback>
+		<questionsperpage>1</questionsperpage>
+		<navmethod>free</navmethod>
+		<shuffleanswers>1</shuffleanswers>
+		<sumgrades>10.0</sumgrades>
+		<grade>10.0</grade>
+		<timecreated>0</timecreated>
+		<timemodified>1705670247</timemodified>
+		<password></password>
+		<subnet></subnet>
+		<browsersecurity>-</browsersecurity>
+		<delay1>0</delay1>
+		<delay2>0</delay2>
+		<showuserpicture>0</showuserpicture>
+		<showblocks>0</showblocks>
+		<completionattemptsexhausted>0</completionattemptsexhausted>
+		<completionpass>0</completionpass>
+		<pagination>0</pagination>
+		<closeafter>0</closeafter>
+		<autoreport>0</autoreport>
+		<watermark>0</watermark>
+		<question_instances>
+			<question_instance id="115520">
+				<slot>1</slot>
+				<page>1</page>
+				<requireprevious>0</requireprevious>
+				<questionid>10000</questionid>
+				<maxmark>2.0</maxmark>
+			</question_instance>
+			<question_instance id="115521">
+				<slot>2</slot>
+				<page>2</page>
+				<requireprevious>0</requireprevious>
+				<questionid>10001</questionid>
+				<maxmark>6.0</maxmark>
+			</question_instance>
+			<question_instance id="115522">
+				<slot>3</slot>
+				<page>3</page>
+				<requireprevious>0</requireprevious>
+				<questionid>10002</questionid>
+				<maxmark>2.0</maxmark>
+			</question_instance>
+		</question_instances>
+		<sections>
+			<section id="7621">
+				<firstslot>1</firstslot>
+				<heading></heading>
+				<shufflequestions>0</shufflequestions>
+			</section>
+		</sections>
+		<feedbacks>
+			<feedback id="27071">
+				<feedbacktext></feedbacktext>
+				<feedbacktextformat>1</feedbacktextformat>
+				<mingrade>0.00000</mingrade>
+				<maxgrade>33.00000</maxgrade>
+			</feedback>
+		</feedbacks>
+		<overrides>
+		</overrides>
+		<grades>
+		</grades>
+		<attempts>
+		</attempts>
+	</quiz>
+</activity>

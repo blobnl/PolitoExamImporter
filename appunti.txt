@@ -1,0 +1,1 @@
+--workDir "D:\Dropbox - PoliTo\Dropbox (Politecnico di Torino Staff)\Informatica\ProposteTemi_22-23\Estiva\Appello-III" --xml informatica.xml --questionFile domande.md --category "2023-Estiva-A3" --createMBZ True --enableACE False --canRedoQuiz False --processSubDirs True --merge False --createUniqueImport True

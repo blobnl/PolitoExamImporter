@@ -1,0 +1,32 @@
+MULTICHOICE
+AR @m2 @f100.0:-33.33333
+TEXT
+La caratteristica principale del paradigma di spatial AR è che:
+ANSWER
+1 usa dei proiettori (che proiettano le loro immagini su superifici e oggetti nel mondo reale) per creare gli oggetti virtuali 
+0 permette agli utenti di muoversi liberamente nello spazio aumentato
+0 permette di tracciare il movimento degli oggetti reali per usarlo come input nell'applicazione AR
+
+MULTICHOICE
+3DUI @m6 @f100.0:-10.0
+TEXT
+La metafora di interazione HOMER
+ANSWER
+0 usa una mano virtuale per l’interazione con gli oggetti virtuali consentendone un allungamento per raggiungere oggetti distanti
+1 per permettere la manipolazione semplice di oggetti distanti permette di portarsi nelle loro vicinanze una volta che questi sono stati selezionati
+0 usa un raggio virtuale che viene proiettato nell’ambiente virtuale per la selezione e manipolazione di oggetti virtuali
+
+ESSAY
+Trasformazione basi
+TEXT
+Dato il numero 21 in base 10 riportarne la sua codifica in binario, ottale ed esadecimale
+ANSWER
+Risposte:
+
+- base 2)
+
+- base 8)
+
+- base 16)
+
+
