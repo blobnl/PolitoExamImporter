@@ -848,9 +848,18 @@ class CrownLab(Question):
             pass
 
         os.mkdir(examDir)
+        '''
+        # .idea dir is for pycharm
         ideaDir = os.path.join(examDir, ".idea")
         Path(ideaDir).mkdir(exist_ok=True)
         copytree('./.idea', ideaDir, dirs_exist_ok=True)
+        '''
+        
+
+        # .vscode dir is for visual studio code
+        vsDir = os.path.join(examDir, ".vscode")
+        Path(vsDir).mkdir(exist_ok=True)
+        copytree('./.vscode', vsDir, dirs_exist_ok=True)
 
         for fileName in self.fileList:
             original = os.path.join(self.workDir, fileName)
