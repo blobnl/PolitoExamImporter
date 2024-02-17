@@ -96,7 +96,7 @@ class CategoryInfo(object):
 
 
         except Exception as e:
-            print('Missing quiz info') # for', self.categoryDir,e)
+            #print('Missing quiz info') # for', self.categoryDir,e)
             return
 
     def setValues(self):  

@@ -140,7 +140,7 @@ def addQuestion(questionList, args, questionClass, **kwargs):
     newQuestion = None
 
     try:
-        if kwargs['name'] == '' or kwargs['text'] == '':
+        if (kwargs['name'] == '' or kwargs['text'] == '') and (not questionClass is CheatSheet):
             print('Warning: empty question', type(questionClass), kwargs['name'], kwargs['text'])
 
         newQuestion = questionClass(**kwargs)
