@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moodle_backup>
+    <information>
+        <name>
+            <text>Corso di Esempio</text>
+        </name>
+        <course_id>1</course_id>
+        <category_id>1</category_id>
+        <description>
+            <text>Descrizione del corso di esempio.</text>
+        </description>
+    </information>
+
+    <!-- Sezione 1 -->
+    <section>
+        <name>
+            <text>Sezione 1: Introduzione</text>
+        </name>
+        <sequence>1</sequence>
+        <summary>
+            <text>Questa è la prima sezione del corso.</text>
+        </summary>
+        <visible>1</visible>
+        <activity>
+            <type>quiz</type>
+            <moduleid>1</moduleid>
+            <modulename>
+                <text>Quiz 1</text>
+            </modulename>
+            <quiz>
+                <name>
+                    <text>Quiz 1 della Sezione 1</text>
+                </name>
+                <intro>
+                    <text><![CDATA[Questo è il primo quiz della sezione 1.]]></text>
+                </intro>
+                <timeopen>1700000000</timeopen> <!-- Unix timestamp -->
+                <timeclose>1700604800</timeclose> <!-- Unix timestamp -->
+                <timelimit>600</timelimit>
+                <preferredbehaviour>deferredfeedback</preferredbehaviour>
+                <attempts>1</attempts>
+                <grade>10.0000000</grade>
+                <questions>
+                    <question type="multichoice">
+                        <name>
+                            <text>Domanda a scelta multipla</text>
+                        </name>
+                        <questiontext format="html">
+                            <text><![CDATA[Qual è la capitale della Francia?]]></text>
+                        </questiontext>
+                        <answer fraction="100">
+                            <text>Parigi</text>
+                        </answer>
+                        <answer fraction="0">
+                            <text>Londra</text>
+                        </answer>
+                        <answer fraction="0">
+                            <text>Berlino</text>
+                        </answer>
+                    </question>
+                </questions>
+            </quiz>
+        </activity>
+    </section>
+
+    <!-- Sezione 2 -->
+    <section>
+        <name>
+            <text>Sezione 2: Approfondimenti</text>
+        </name>
+        <sequence>2</sequence>
+        <summary>
+            <text>Questa è la seconda sezione del corso.</text>
+        </summary>
+        <visible>1</visible>
+        <activity>
+            <type>quiz</type>
+            <moduleid>2</moduleid>
+            <modulename>
+                <text>Quiz 2</text>
+            </modulename>
+            <quiz>
+                <name>
+                    <text>Quiz 1 della Sezione 2</text>
+                </name>
+                <intro>
+                    <text><![CDATA[Questo è il primo quiz della sezione 2.]]></text>
+                </intro>
+                <timeopen>1700000000</timeopen> <!-- Unix timestamp -->
+                <timeclose>1700604800</timeclose> <!-- Unix timestamp -->
+                <timelimit>600</timelimit>
+                <preferredbehaviour>deferredfeedback</preferredbehaviour>
+                <attempts>2</attempts>
+                <grade>10.0000000</grade>
+                <questions>
+                    <question type="truefalse">
+                        <name>
+                            <text>Domanda vero/falso</text>
+                        </name>
+                        <questiontext format="html">
+                            <text><![CDATA[La Terra è piatta.]]></text>
+                        </questiontext>
+                        <answer fraction="100">
+                            <text>false</text>
+                        </answer>
+                        <answer fraction="0">
+                            <text>true</text>
+                        </answer>
+                    </question>
+                </questions>
+            </quiz>
+        </activity>
+    </section>
+</moodle_backup>

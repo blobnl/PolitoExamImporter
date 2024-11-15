@@ -316,7 +316,7 @@ class CodeRunner(Question):
             indent.write(xmlFile, '<attachments>' + str(len(self.fileList) + 2) + '</attachments>')
             indent.write(xmlFile, '<attachmentsrequired>' + str(len(self.fileList)) + '</attachmentsrequired>')
             indent.write(xmlFile, '<maxfilesize>102400</maxfilesize>')
-            indent.write(xmlFile, '<filenamesregex>stdin.txt|.*\.dat</filenamesregex>')
+            indent.write(xmlFile, '<filenamesregex>stdin.txt|.*\\.dat</filenamesregex>')
             indent.write(xmlFile, '<filenamesexplain>Optionally attach a file stdin.txt to be used as standard input and/or a data file with extension .dat for other use by the program.</filenamesexplain>')
             indent.write(xmlFile, '<displayfeedback>1</displayfeedback>')
 
@@ -926,11 +926,14 @@ class CrownLab(Question):
 
     ID = 1
     defaultMark = 26.0
+    CODE_KEY = '###CODE###'
 
     def __init__(self, **kwargs):
         super(CrownLab, self).__init__()
         self.text = kwargs['text']
         self.name = kwargs['name']
+        self.hasMain = False
+        self.mainCode = ''
         self.fileList = kwargs['fileList']
         self.answer = kwargs['answer']
         self.workDir = '.'
@@ -939,6 +942,14 @@ class CrownLab(Question):
             self.destination = kwargs['destination']
         else:
             self.destination = "portal:"
+            
+        # analizza testo per vedere se c'è del codice esplicito per il main
+        
+        if CrownLab.CODE_KEY in self.text:
+            parts = self.text.split(CrownLab.CODE_KEY, 1)
+            self.text = parts[0].strip()
+            self.mainCode = parts[1].strip()
+            self.hasMain = True
 
         '''
         DESTINATION TYPES
@@ -1002,13 +1013,18 @@ class CrownLab(Question):
 
         with open(mainFile, "w", encoding = "utf-8") as file:
 
-            header = open("./pythonHeader.txt", "r", encoding = "utf-8").read()
-            file.write(header)
-            file.write("\n\n")
+            if self.hasMain:
+                file.write(self.mainCode)
+                file.write("\n\n")
+                
+            else:
+                header = open("./pythonHeader.txt", "r", encoding = "utf-8").read()
+                file.write(header)
+                file.write("\n\n")
 
             
-            for fileName in self.fileList:
-                file.write(f"print(open('{fileName}', 'r').read())\nprint()\n")
+                for fileName in self.fileList:
+                    file.write(f"print(open('{fileName}', 'r').read())\nprint()\n")
 
         zipFile = os.path.join(directory, "exam")
         try:
