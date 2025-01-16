@@ -762,6 +762,93 @@ class CheatSheet(Question):
             
             self.writeFile(file, indent, fileHash, fileName, fileSize, 'application/pdf', component = 'question', filearea = 'questiontext')
 
+class TrueFalse(Question):
+    
+    ID = 2600 # what for???
+    defaultMark = 0.0
+    correctFraction = "100"
+    wrongFraction = "0"
+    
+    
+    def __init__(self, **kwargs):
+        super(TrueFalse, self).__init__()
+
+        self.text = kwargs['text']
+        name = kwargs['name']
+        (self.name, self.mark) = self.setMark(name, TrueFalse.defaultMark)
+        
+    # for moodle XML import file
+    def writeQuestion(self, xmlFile, indent, args):
+        print("Saving truefalse:", self.name)
+
+        # header
+        indent.write(xmlFile, "<question type=\"truefalse\">")
+        indent.inc()
+        indent.write(xmlFile, "<name>")
+        indent.inc()
+        indent.write(xmlFile, "<text> " + f"{self.positionInQuiz:02d} {self.name}" + " </text>")
+        indent.dec()
+        indent.write(xmlFile, "</name>")
+
+        # text
+        text = markdown.markdown(self.text,  extensions = EXTENSION_LIST)
+        indent.write(xmlFile, "<questiontext format = \"html\">")
+        indent.write(xmlFile, '<text><![CDATA[<p dir="ltr" style="text-align: left;">' + text + '</p>]]></text>')
+        indent.write(xmlFile, "</questiontext>")
+        indent.write(xmlFile, "<generalfeedback format = \"html\">")
+        indent.write(xmlFile, "<text></text>")
+        indent.write(xmlFile, "</generalfeedback>")
+
+        # parameters
+        indent.write(xmlFile, "<defaultgrade> " + str(self.mark) + " </defaultgrade>")
+        indent.write(xmlFile, "<penalty> 1.0000000 </penalty>")
+        indent.write(xmlFile, "<hidden> 0 </hidden>")
+
+        if Question.MoodleVersion >= 3.0:
+            indent.write(xmlFile, "<idnumber></idnumber>")
+
+        # write individual parameters
+        
+        
+        indent.write(xmlFile, '<answer fraction="0" format="moodle_auto_format">')
+        indent.inc()
+        indent.write(xmlFile, '<text>true</text>')
+        indent.write(xmlFile, '<feedback format="html">')
+        indent.inc()
+        indent.write(xmlFile, '<text></text>')
+        indent.dec()
+        indent.write(xmlFile, '</feedback>')
+        indent.dec()
+        indent.write(xmlFile, '</answer>')
+        
+        indent.write(xmlFile, '<answer fraction="100" format="moodle_auto_format">')
+        indent.inc()
+        indent.write(xmlFile, '<text>false</text>')
+        indent.write(xmlFile, '<feedback format="html">')
+        indent.inc()
+        indent.write(xmlFile, '<text></text>')
+        indent.dec()
+        indent.write(xmlFile, '</feedback>')
+        indent.dec()
+        indent.write(xmlFile, '</answer>')
+
+        # close
+        indent.dec()
+        indent.write(xmlFile, "</question>")
+
+    
+    def writeExportFiles(self, file, args, root):
+        pass
+    
+    # fro the html control file
+    def writeHtml(self, file, args):
+        pass
+
+    # for creating backup file
+    def writeImportQuestion(self, xmlFile, indent, args):
+        pass
+        
+
 class MultiChoice(Question):
     
     ID = 2500 # what for???

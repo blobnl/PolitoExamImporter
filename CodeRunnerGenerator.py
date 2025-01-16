@@ -6,9 +6,11 @@ import os
 import glob
 
 from Indent import Indent
-from QuestionTypes import Essay, CodeRunner, CheatSheet, MultiChoice, CrownLab
+from QuestionTypes import Essay, CodeRunner, CheatSheet, MultiChoice, CrownLab, TrueFalse
 from QuestionCategories import CategoryInfo,str2bool
 import MoodleImporterGenerator
+
+from collections import Counter
 
 #from MoodleImporterGenerator import MoodleImport
 
@@ -71,7 +73,7 @@ def readQuestions(args):
     destination = ''
     newQuestion = False
     questionType = ''
-    questionTypes = {"QUESTION": CrownLab, "ESSAY": Essay, 'CHEATSHEET' : CheatSheet, 'MULTICHOICE' : MultiChoice}
+    questionTypes = {"QUESTION": CrownLab, "ESSAY": Essay, 'CHEATSHEET' : CheatSheet, 'MULTICHOICE' : MultiChoice, 'TRUEFALSE' : TrueFalse}
 
     questionList = []
 
@@ -294,7 +296,32 @@ def createUniqueImport(args):
         xmlFile.writelines(cleaned)
         xmlFile.close()
 
+def isComputerScience(args):
+    return 'informatica' in args.xml.lower()
 
+def checkQuiz(questionList):
+    stdClassList = ['Essay', 'TrueFalse', 'Essay', 'Essay', 'Essay', 'CheatSheet', 'CrownLab']
+    classNames = [obj.__class__.__name__ for obj in questionList]
+    if classNames != stdClassList:
+        print('Errore nel file delle domande')
+        # Count occurrences of each class name
+        actual_count = Counter(classNames)
+        expected_count = Counter(stdClassList)
+
+        # Find missing and extra items
+        missing = {key: expected_count[key] - actual_count[key] 
+                   for key in expected_count if expected_count[key] > actual_count[key]}
+        extra = {key: actual_count[key] - expected_count[key] 
+                 for key in actual_count if actual_count[key] > expected_count[key]}
+        
+        if missing:
+            print(f'Missing: {missing}')
+        if extra:
+            print(f'Extra; {extra}')
+            
+        abort = input('Abort program (y/n)? ')
+        if 'y' in abort.lower():
+            exit()
 
 def CRGmain():
 
@@ -326,7 +353,7 @@ def CRGmain():
 
             args.workDir = currentDir
             args.category = mainCategory + '/' + category
-            print('processing',subDir, 'category', category)
+            print('processing',category)
             questionList = readQuestions(args)
 
             if questionList is None:
@@ -338,6 +365,8 @@ def CRGmain():
                 categories.append(CategoryInfo(subDir))
             questions.append((args.category,questionList))
             storeHTMLPreview(questionList, args)
+            if isComputerScience(args):
+                checkQuiz(questionList)
             #processDir(args)
 
         for (idx,block) in enumerate(questions):
