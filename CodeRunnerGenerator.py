@@ -303,7 +303,7 @@ def checkQuiz(questionList):
     stdClassList = ['Essay', 'TrueFalse', 'Essay', 'Essay', 'Essay', 'CheatSheet', 'CrownLab']
     classNames = [obj.__class__.__name__ for obj in questionList]
     if classNames != stdClassList:
-        print('Errore nel file delle domande')
+        print('Compito identificato come comito di Informatica, In questo case, c\'è un errore nel file delle domande')
         # Count occurrences of each class name
         actual_count = Counter(classNames)
         expected_count = Counter(stdClassList)
@@ -399,12 +399,13 @@ def CRGmain():
     else:
         processDir(args)
 
-    
+    '''
     if args.createUniqueImport and args.processSubDirs:
         print('\nMerging all files into a unique import')
         args.workDir = workDir
         args.category = mainCategory
         createUniqueImport(args)
+    '''
 
 
 if __name__ == "__main__":

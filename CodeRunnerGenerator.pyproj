@@ -13,7 +13,7 @@
     <RootNamespace>CodeRunnerGenerator</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>--workDir "D:\Dropbox - PoliTo\Dropbox (Politecnico di Torino Staff)\Informatica\Temi_esame_24-25\Invernale\Appello I" --xml informatica.xml --questionFile domande.md --category "A1" --createMBZ True --enableACE False --canRedoQuiz False --processSubDirs True --merge False --createUniqueImport True</CommandLineArguments>
+    <CommandLineArguments>--workDir "D:\Dropbox - PoliTo\Dropbox (Politecnico di Torino Staff)\Informatica\Temi_esame_24-25\Invernale\Appello I" --xml informatica.xml --questionFile domande.md --category "A1" --createMBZ true --enableACE False --canRedoQuiz False --processSubDirs True --merge false --createUniqueImport True</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
     <InterpreterId>Global|VisualStudio|Python312</InterpreterId>
   </PropertyGroup>

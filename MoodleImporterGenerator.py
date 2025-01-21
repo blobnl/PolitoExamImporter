@@ -36,8 +36,6 @@ class MoodleImport(object):
         self.root = os.path.join(self.args.workDir, self.args.category)
         self.xmlDir = os.path.join(self.args.workDir, 'XMLquiz')
         self.activityDir = os.path.join(self.root, 'activities')
-        os.makedirs(self.activityDir, exist_ok = True)
-
         self.backupName = self.args.category + '.mbz'
 
         print('creating moodle import file', self.backupName)
@@ -257,7 +255,13 @@ class MoodleImport(object):
 
         self.writeXml()
         #return
+        
+        # comment the return fo you want to create the full mbz
+        return
 
+        # create main root dir
+        os.makedirs(self.activityDir, exist_ok = True)
+        
         # empty files
         # groups
         file = open(os.path.join(self.root, 'groups.xml'), 'w', encoding = 'utf-8')
