@@ -12,6 +12,8 @@ import MoodleImporterGenerator
 
 from collections import Counter
 
+
+
 #from MoodleImporterGenerator import MoodleImport
 
 
@@ -185,6 +187,7 @@ def parseArguments():
     parser.add_argument('--merge', type=str2bool, default=False, help='Merging all questions from multiple dirs into a unique file (default is False)')
     parser.add_argument('--createMBZ', type=str2bool, default=False, help='Create moodle importer (default is False)')
     parser.add_argument('--canRedoQuiz', type=str2bool, default=False, help='Create moodle importer (default is False)')
+    parser.add_argument('--createDoc', type=str2bool, default=False, help='Create doc export')
 
     return parser.parse_args()
 
@@ -193,6 +196,8 @@ def storeQuestionList(questionList, args):
         indent = Indent()
         xmlFile = open(os.path.join(args.workDir, args.xml), "w", encoding="utf-8")
         htmlFile = open(os.path.join(args.workDir, args.xml + '.html'), "w", encoding="utf-8")
+        if args.createDoc:
+            txtFile = open(os.path.join(args.workDir, args.xml + '.txt'), "w", encoding="utf-8")
 
         writeHeader(xmlFile, indent, args.category)
         writeHtmlHeader(htmlFile, args)
@@ -201,12 +206,17 @@ def storeQuestionList(questionList, args):
         for question in questionList:
             question.writeQuestion(xmlFile, indent, args)
             question.writeHtml(htmlFile, args)
+            if args.createDoc:
+                #print(f'write {question}')
+                question.writeTxt(txtFile, args)
 
         indent.dec()
         writeFooter(xmlFile, indent)
         writeHtmlFooter(htmlFile)
         xmlFile.close()
         htmlFile.close()
+        if args.createDoc:
+            txtFile.close()
 
     except Exception as e:
         print('Error in craeting questions for', xmlFile,e)
@@ -303,7 +313,7 @@ def checkQuiz(questionList):
     stdClassList = ['Essay', 'TrueFalse', 'Essay', 'Essay', 'Essay', 'CheatSheet', 'CrownLab']
     classNames = [obj.__class__.__name__ for obj in questionList]
     if classNames != stdClassList:
-        print('Compito identificato come comito di Informatica, In questo case, c\'è un errore nel file delle domande')
+        print('Compito identificato come comito di Informatica, In questo case,  errore nel file delle domande')
         # Count occurrences of each class name
         actual_count = Counter(classNames)
         expected_count = Counter(stdClassList)
