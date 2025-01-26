@@ -13,9 +13,9 @@
     <RootNamespace>CodeRunnerGenerator</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>--createDoc True --workDir "G:\Didattica\Virtual Reality\Esami\2025" --xml informatica.xml --questionFile domande.md --category "2025.A1" --createMBZ true --enableACE False --canRedoQuiz False --processSubDirs True --merge false --createUniqueImport True</CommandLineArguments>
+    <CommandLineArguments>--createDoc True --workDir "D:\Dropbox - PoliTo\Dropbox (Politecnico di Torino Staff)\Informatica\Temi_esame_24-25\Invernale\Appello I" --xml informatica.xml --questionFile domande.md --category "A1" --createMBZ true --enableACE False --canRedoQuiz False --processSubDirs True --merge false --createUniqueImport True</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
-    <InterpreterId>Global|PythonCore|3.10</InterpreterId>
+    <InterpreterId>Global|VisualStudio|Python312</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
