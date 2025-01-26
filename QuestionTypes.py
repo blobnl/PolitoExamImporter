@@ -155,7 +155,6 @@ class Question(object):
     def writeImportQuestion(self, xmlFile, indent, args):
         pass
 
-
 class CodeRunner(Question):
 
     ID = 1
@@ -618,7 +617,6 @@ class Essay(Question):
         indent.dec()
         indent.write(xmlFile, "</question>")
 
-
 class CheatSheet(Question):
 
 
@@ -846,8 +844,7 @@ class TrueFalse(Question):
 
     # for creating backup file
     def writeImportQuestion(self, xmlFile, indent, args):
-        pass
-        
+        pass        
 
 class MultiChoice(Question):
     
@@ -1007,8 +1004,6 @@ class MultiChoice(Question):
     def writeExportFiles(self, file, args, root):
         pass
 
-
-
 class CrownLab(Question):
 
     ID = 1
@@ -1093,6 +1088,13 @@ class CrownLab(Question):
 
         for fileName in self.fileList:
             original = os.path.join(self.workDir, fileName)
+            
+            # check import files
+            if not (os.path.exists(original) and os.access(original, os.R_OK)):
+                print(f'errore in accesso del file {original}')
+                if input('Interrompo esecuzione? (y/n) ').lower() == 'y':
+                    exit()
+
             destination = os.path.join(examDir, fileName)
             copyfile(original, destination)
 
