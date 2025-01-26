@@ -104,6 +104,9 @@ class Question(object):
 
     def write(self, file, indent, line):
         return
+    
+    def writeTxt(self, txtFile, args):
+        return
 
     def writeXml(self, file, indent, line):
         pass
@@ -495,6 +498,9 @@ class Essay(Question):
         #file.write('<div class="content"><div class="formulation"><h4 class="accesshide">Testo della domanda</h4><input type="hidden" name="q1172691:1_:sequencecheck" value="1" /><div class="qtext"><p>' + answer + '</p></div></div></div>')
     
 
+    
+    def writeTxt(self, txtFile, args):
+        txtFile.write(f'\n{self.text}\n')
 
     def writeImportQuestion(self, xmlFile, indent, args):
         
@@ -897,6 +903,12 @@ class MultiChoice(Question):
           
         return choiches
 
+    
+    def writeTxt(self, txtFile, args):
+        txtFile.write(f'\n{self.text}\n')
+        for answer in self.answer:
+            line = f'- [{int(answer[0])}] {answer[1]}\n'
+            txtFile.write(line)
 
     def markdownTuplesToHtml(self, tuples):
         """
