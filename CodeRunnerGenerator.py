@@ -11,6 +11,11 @@ from QuestionCategories import CategoryInfo,str2bool
 import MoodleImporterGenerator
 
 from collections import Counter
+import langdetect
+
+from docx import Document
+from docx.shared import RGBColor
+from docx.shared import Pt
 
 
 
@@ -65,6 +70,9 @@ def readQuestions(args):
         return None
 
     lines = file.readlines()
+    
+    languageDetected = langdetect.detect(''.join(lines))
+    print(f'Language detected: {languageDetected}')
 
     text = ''
     content = ''
@@ -102,7 +110,8 @@ def readQuestions(args):
                                                'answer':answer, 
                                                'fileList':fileList, 
                                                'correct':correct, 
-                                               'destination':destination})
+                                               'destination':destination,
+                                               'language':languageDetected})
                 addedQuestion.positionInQuiz = len(questionList)
 
                 # cleaning fields for next question
@@ -133,7 +142,10 @@ def readQuestions(args):
                 text = lineCL
 
     
-    addedQuestion = addQuestion(questionList, args, questionTypes[questionType], **{'name':name, 'text':text, 'answer':answer, 'fileList':fileList, 'correct':correct, 'destination':destination})
+    addedQuestion = addQuestion(questionList, args, questionTypes[questionType], 
+                                **{'name':name, 'text':text, 'answer':answer, 
+                                   'fileList':fileList, 'correct':correct, 'destination':destination,
+                                   'language':languageDetected})
     addedQuestion.positionInQuiz = len(questionList)
 
     print('Trovate',len(questionList),'domande')
@@ -191,24 +203,44 @@ def parseArguments():
 
     return parser.parse_args()
 
+def set_default_font(doc, font_name="Aptos", font_size=11):
+    """
+    Imposta il font predefinito per il documento modificando lo stile 'Normal'.
+
+    :param doc: Oggetto Document di python-docx
+    :param font_name: Nome del font (default: "Aptos")
+    :param font_size: Dimensione del font in pt (default: 11)
+    """
+    style = doc.styles['Normal']
+    font = style.font
+    font.name = font_name
+    font.size = Pt(font_size)
+
 def storeQuestionList(questionList, args):
     try:
         indent = Indent()
         xmlFile = open(os.path.join(args.workDir, args.xml), "w", encoding="utf-8")
         htmlFile = open(os.path.join(args.workDir, args.xml + '.html'), "w", encoding="utf-8")
         if args.createDoc:
-            txtFile = open(os.path.join(args.workDir, args.xml + '.txt'), "w", encoding="utf-8")
+            #txtFile = open(os.path.join(args.workDir, args.xml + '.txt'), "w", encoding="utf-8")
+            docFile = os.path.join(args.workDir, args.xml + '.docx')
+            doc = Document()
+            set_default_font(doc, font_name="Aptos", font_size=11)
 
         writeHeader(xmlFile, indent, args.category)
         writeHtmlHeader(htmlFile, args)
         indent.inc()
 
+        counter = 0
         for question in questionList:
+            if type(question).__name__ in ['Essay', 'TrueFalse', 'MultiChoice']:
+                counter += 1
+                
             question.writeQuestion(xmlFile, indent, args)
             question.writeHtml(htmlFile, args)
             if args.createDoc:
                 #print(f'write {question}')
-                question.writeTxt(txtFile, args)
+                question.writeTxt(doc, args, counter)
 
         indent.dec()
         writeFooter(xmlFile, indent)
@@ -216,7 +248,8 @@ def storeQuestionList(questionList, args):
         xmlFile.close()
         htmlFile.close()
         if args.createDoc:
-            txtFile.close()
+            #txtFile.close()
+            doc.save(docFile)
 
     except Exception as e:
         print('Error in craeting questions for', xmlFile,e)

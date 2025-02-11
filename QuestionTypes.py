@@ -16,6 +16,13 @@ from pathlib import Path
 
 from Indent import Indent
 
+from docx import Document
+from docx.shared import RGBColor
+from docx.shared import Pt
+
+from docx.oxml import parse_xml
+from docx.oxml.ns import nsdecls
+
 
 EXTENSION_LIST = ['markdown.extensions.tables', 'markdown.extensions.fenced_code', 'markdown.extensions.attr_list']
 
@@ -105,7 +112,7 @@ class Question(object):
     def write(self, file, indent, line):
         return
     
-    def writeTxt(self, txtFile, args):
+    def writeTxt(self, txtFile, args, ctr):
         return
 
     def writeXml(self, file, indent, line):
@@ -499,8 +506,17 @@ class Essay(Question):
     
 
     
-    def writeTxt(self, txtFile, args):
-        txtFile.write(f'\n{self.text}\n')
+    def writeTxt(self, txtFile, args, ctr):
+        #txtFile.write(f'\n{self.text}\n')
+        doc = txtFile
+        
+        # Aggiunge la domanda in grassetto
+        question_paragraph = doc.add_paragraph()
+        question_run = question_paragraph.add_run(f'{ctr}. {self.text} \n(Punti: {self.mark})')
+        question_run.bold = False
+        
+        
+        doc.add_paragraph()
 
     def writeImportQuestion(self, xmlFile, indent, args):
         
@@ -636,6 +652,14 @@ class CheatSheet(Question):
         self.english = False
         if 'eng' in kwargs['name'].lower():
             self.english = True
+            
+        if kwargs['language'].lower() == 'en' and not self.english:
+            print(f'Errore: language {kwargs['language']} con name = "{kwargs['name'].lower()}". Imposto di deafult il cheatsheet in inglese')
+            self.english = True
+                    
+        if kwargs['language'].lower() == 'it' and self.english:
+            print(f'Errore: language {kwargs['language']} con name = "{kwargs['name'].lower()}". Imposto di deafult il cheatsheet in italiano')
+            self.english = False
         
         if not self.english:
             self.NORMAL = 'CS.pdf'
@@ -904,11 +928,51 @@ class MultiChoice(Question):
         return choiches
 
     
-    def writeTxt(self, txtFile, args):
+    def writeTxt(self, txtFile, args, ctr):
+        '''
         txtFile.write(f'\n{self.text}\n')
         for answer in self.answer:
             line = f'- [{int(answer[0])}] {answer[1]}\n'
             txtFile.write(line)
+        '''
+        doc = txtFile
+        
+        # Aggiunge la domanda in grassetto
+        question_paragraph = doc.add_paragraph()
+        question_run = question_paragraph.add_run(f'{ctr}. {self.text}')
+        question_run.bold = False
+
+        # Aggiunge le opzioni con un quadratino (☐) davanti
+        for i, option in enumerate(self.answer):
+            #option_paragraph = doc.add_paragraph("☐ ", style="ListBullet")
+            #option_run = option_paragraph.add_run(option)
+            '''
+            option_paragraph = doc.add_paragraph()
+            option_paragraph.paragraph_format.space_after = 0  # Rimuove spazio extra dopo
+            option_paragraph.paragraph_format.space_before = 0  # Rimuove spazio extra prima
+            option_run = option_paragraph.add_run(f"☐ {option[1]}")
+            '''
+            
+            option_paragraph = doc.add_paragraph(style="ListBullet")
+        
+            # Modifica il bullet del paragrafo per usare il quadratino ☐
+            '''
+            option_paragraph._element.get_or_add_pPr().append(parse_xml(
+                r'<w:numPr {}>'
+                r'<w:ilvl w:val="0"/>'
+                r'<w:numId w:val="1"/>'
+                r'</w:numPr>'.format(nsdecls('w'))
+            ))
+            '''
+
+            option_run = option_paragraph.add_run(f"{option[1]}")
+
+            # Se è la risposta corretta, evidenzia in giallo
+            if option[0]:
+                option_run.font.highlight_color = 7  # Giallo
+             
+        
+        option_paragraph = doc.add_paragraph()
 
     def markdownTuplesToHtml(self, tuples):
         """
@@ -1059,6 +1123,24 @@ class CrownLab(Question):
         <destination>mdlTxt:main.py</destination>
 
         '''
+
+        pattern = r'\b[\w-]+\.[a-zA-Z0-9]+\b'  # Regex per catturare nomi di file con estensione
+        matches = re.findall(pattern, self.text)
+        filenames = {match for match in re.findall(r'\b[\w-]+\.[a-zA-Z]{3}\b', self.text)}
+
+        correct = True
+        for file in filenames:
+            if not file in self.fileList:
+                correct = False
+                break
+            
+        if not correct:
+            print(f'Possibile errore nella lista file')
+            print(f'Trovati nel testo: {filenames}')
+            print(f'Indicati nella domanda; {self.fileList}')
+            choice = input('Interrompo il programma (y/n)? ').lower()
+            if choice == 'y':
+                exit()
 
 
         self.coderunnerId = CrownLab.ID
