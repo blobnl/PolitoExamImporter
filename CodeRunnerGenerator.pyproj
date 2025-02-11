@@ -42,7 +42,6 @@
     <Compile Include="MoodleImporterGenerator.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="test.py" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env1\">
