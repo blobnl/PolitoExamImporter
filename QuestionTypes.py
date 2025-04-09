@@ -654,11 +654,11 @@ class CheatSheet(Question):
             self.english = True
             
         if kwargs['language'].lower() == 'en' and not self.english:
-            print(f'Errore: language {kwargs['language']} con name = "{kwargs['name'].lower()}". Imposto di deafult il cheatsheet in inglese')
+            print(f'Errore: language {kwargs["language"]} con name = "{kwargs["name"].lower()}". Imposto di deafult il cheatsheet in inglese')
             self.english = True
                     
         if kwargs['language'].lower() == 'it' and self.english:
-            print(f'Errore: language {kwargs['language']} con name = "{kwargs['name'].lower()}". Imposto di deafult il cheatsheet in italiano')
+            print(f'Errore: language {kwargs["language"]} con name = "{kwargs["name"].lower()}". Imposto di deafult il cheatsheet in italiano')
             self.english = False
         
         if not self.english:
