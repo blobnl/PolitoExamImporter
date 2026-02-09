@@ -1266,7 +1266,8 @@ class CrownLab(Question):
             indent.write(xmlFile, '<idnumber>python</idnumber>')
 
         if Question.MoodleVersion >= 3.0:
-            indent.write(xmlFile, '<template>vscode-py-noexts</template>')
+            #indent.write(xmlFile, '<template>vscode-py-noexts</template>') ## version no ext
+            indent.write(xmlFile, '<template>vscode-py-noexts-nonet</template>') ## versione no ext, no net
         else:
             indent.write(xmlFile, '<template>pycharm2021-persistent</template>')
 

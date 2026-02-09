@@ -13,9 +13,9 @@
     <RootNamespace>CodeRunnerGenerator</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>--createDoc False --workDir "D:\Politecnico di Torino Staff Dropbox\Andrea Giuseppe Bottino\Informatica\Temi_esame_24-25\Straordinaria" --xml informatica.xml --questionFile domande.md --category "2025.Str" --createMBZ true --enableACE False --canRedoQuiz False --processSubDirs True --merge false --createUniqueImport True</CommandLineArguments>
+    <CommandLineArguments>--createDoc False --workDir "D:\Politecnico di Torino Staff Dropbox\Andrea Giuseppe Bottino\Informatica\Temi_esame_25-26\Invernale - appello I" --xml informatica.xml --questionFile domande.md --category "2026.A1" --createMBZ true --enableACE False --canRedoQuiz False --processSubDirs True --merge false --createUniqueImport True</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
-    <InterpreterId>Global|PythonCore|3.8</InterpreterId>
+    <InterpreterId>Global|PythonCore|3.11</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="Global|PythonCore|3.10" />
+    <InterpreterReference Include="Global|PythonCore|3.11" />
     <InterpreterReference Include="Global|PythonCore|3.12" />
     <InterpreterReference Include="Global|PythonCore|3.8" />
     <InterpreterReference Include="Global|VisualStudio|Python312" />
