@@ -85,7 +85,7 @@ def getFileHash(filename):
 class Question(object):
       
     fileID = 6359000              # unique ID per file    
-    MoodleVersion = 3.1
+    #MoodleVersion = 3.1
     MoodleVersion = 4.5
 
     def __init__(self):
@@ -1272,7 +1272,7 @@ class CrownLab(Question):
             indent.write(xmlFile, '<template>pycharm2021-persistent</template>')
 
         if Question.MoodleVersion >= 4.5:
-            contentorigin = f'<file name="exam.zip" path="/" encoding="base64">{zipFileContent}</file>\n</contentorigin>'
+            contentorigin = f'<file name="exam.zip" path="/" encoding="base64">{zipFileContent}</file>\n' #</contentorigin>
             indent.write(xmlFile, '<contentorigin>' + contentorigin + '</contentorigin>')
         elif Question.MoodleVersion >= 3.0 and Question.MoodleVersion < 4.0:
             contentorigin = '\n<![CDATA[{"filename":"exam.zip","content":"' + zipFileContent + '"}]]>'
