@@ -135,7 +135,7 @@ def readQuestions(args):
             answer += line
         elif content == "CORRECT":
             correct += line
-        elif lineCL == "DESTINATION":
+        elif content == "DESTINATION":
             destination = line
         elif content == "CHEATSHEET":
             if lineCL != "":

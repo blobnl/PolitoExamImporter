@@ -330,9 +330,7 @@ class CodeRunner(Question):
             indent.write(xmlFile, '<filenamesexplain>Optionally attach a file stdin.txt to be used as standard input and/or a data file with extension .dat for other use by the program.</filenamesexplain>')
             indent.write(xmlFile, '<displayfeedback>1</displayfeedback>')
 
-            indent.write(xmlFile, '<testcases>')
-
-        
+        indent.write(xmlFile, '<testcases>')
 
         self.includeFileList(xmlFile, indent, args)
 
@@ -806,7 +804,17 @@ class TrueFalse(Question):
         name = kwargs['name']
         (self.name, self.mark) = self.setMark(name, TrueFalse.defaultMark)
         
+        correct = kwargs['correct'].strip().lower()
+
+        if correct not in ('true', 'false'):
+            raise ValueError(
+                f"Invalid correct answer for TrueFalse question '{self.name}': {correct}"
+            )
+
+        self.correct = (correct == 'true')
+        
     # for moodle XML import file
+    '''    
     def writeQuestion(self, xmlFile, indent, args):
         print("Saving truefalse:", self.name)
 
@@ -864,6 +872,89 @@ class TrueFalse(Question):
         # close
         indent.dec()
         indent.write(xmlFile, "</question>")
+        '''
+    
+        #### TO CHECK AND DEBUG ####
+    def writeQuestion(self, xmlFile, indent, args):
+        print("Saving truefalse:", self.name)
+
+        # header
+        indent.write(xmlFile, '<question type="truefalse">')
+        indent.inc()
+
+        indent.write(xmlFile, "<name>")
+        indent.inc()
+        indent.write(
+            xmlFile,
+            "<text> " + f"{self.positionInQuiz:02d} {self.name}" + " </text>"
+        )
+        indent.dec()
+        indent.write(xmlFile, "</name>")
+
+        # question text
+        text = markdown.markdown(
+            self.text,
+            extensions=EXTENSION_LIST
+        )
+
+        indent.write(xmlFile, '<questiontext format="html">')
+        indent.write(
+            xmlFile,
+            '<text><![CDATA[<p dir="ltr" style="text-align: left;">'
+            + text +
+            '</p>]]></text>'
+        )
+        indent.write(xmlFile, "</questiontext>")
+
+        # general feedback
+        indent.write(xmlFile, '<generalfeedback format="html">')
+        indent.write(xmlFile, "<text></text>")
+        indent.write(xmlFile, "</generalfeedback>")
+
+        # parameters
+        indent.write(
+            xmlFile,
+            "<defaultgrade>" + str(self.mark) + "</defaultgrade>"
+        )
+        indent.write(xmlFile, "<penalty>1.0000000</penalty>")
+        indent.write(xmlFile, "<hidden>0</hidden>")
+
+        if Question.MoodleVersion >= 3.0:
+            indent.write(xmlFile, "<idnumber></idnumber>")
+
+        # answers: true and false
+        for value in (True, False):
+
+            fraction = (
+                TrueFalse.correctFraction
+                if value == self.correct
+                else TrueFalse.wrongFraction
+            )
+
+            answer = "true" if value else "false"
+
+            indent.write(
+                xmlFile,
+                f'<answer fraction="{fraction}" format="moodle_auto_format">'
+            )
+            indent.inc()
+
+            indent.write(xmlFile, f"<text>{answer}</text>")
+
+            # answer feedback
+            indent.write(xmlFile, '<feedback format="html">')
+            indent.inc()
+            indent.write(xmlFile, "<text></text>")
+            indent.dec()
+            indent.write(xmlFile, "</feedback>")
+
+            indent.dec()
+            indent.write(xmlFile, "</answer>")
+
+        # close question
+        indent.dec()
+        indent.write(xmlFile, "</question>")
+
 
     
     def writeExportFiles(self, file, args, root):
@@ -1086,6 +1177,7 @@ class CrownLab(Question):
     ID = 1
     defaultMark = 26.0
     CODE_KEY = '###CODE###'
+    NO_MAIN_KEY = '###NO_MAIN###'
 
     def __init__(self, **kwargs):
         super(CrownLab, self).__init__()
@@ -1093,6 +1185,14 @@ class CrownLab(Question):
         self.name = kwargs['name']
         self.hasMain = False
         self.mainCode = ''
+        self.skipMain = False
+        
+        # Controlla se main.py non deve essere generato
+        self.skipMain = CrownLab.NO_MAIN_KEY in self.text
+
+        # Rimuovi il tag dal testo della domanda
+        self.text = self.text.replace(CrownLab.NO_MAIN_KEY, '').strip()
+
         self.fileList = kwargs['fileList']
         self.answer = kwargs['answer']
         self.workDir = '.'
@@ -1192,24 +1292,27 @@ class CrownLab(Question):
 
             destination = os.path.join(examDir, fileName)
             copyfile(original, destination)
+            
+        # Generate main.py only if skipMain is False
+        if not self.skipMain:
+            mainFile = os.path.join(examDir, "main.py")
 
-        mainFile = os.path.join(examDir, "main.py")
+            with open(mainFile, "w", encoding = "utf-8") as file:
 
-        with open(mainFile, "w", encoding = "utf-8") as file:
-
-            if self.hasMain:
-                file.write(self.mainCode)
-                file.write("\n\n")
+                if self.hasMain:
+                    file.write(self.mainCode)
+                    file.write("\n\n")
                 
-            else:
-                header = open("./pythonHeader.txt", "r", encoding = "utf-8").read()
-                file.write(header)
-                file.write("\n\n")
+                else:
+                    header = open("./pythonHeader.txt", "r", encoding = "utf-8").read()
+                    file.write(header)
+                    file.write("\n\n")
 
             
-                for fileName in self.fileList:
-                    file.write(f"print(open('{fileName}', 'r').read())\nprint()\n")
+                    for fileName in self.fileList:
+                        file.write(f"print(open('{fileName}', 'r').read())\nprint()\n")
 
+        # create zip archibve
         zipFile = os.path.join(directory, "exam")
         try:
             os.remove(zipFile)
